@@ -41,7 +41,7 @@
       width: 100%;
       height: 100%;
       position: relative;
-      background-image: url('https://ibb.co/BKBfMGLS');
+      background-image: url('https://i.ibb.co/3mR4K8p/f10ff1ddaabd15e00687344eece8f745.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -112,7 +112,7 @@
       justify-content: space-between;
       padding: 75px 0 45px;
       z-index: 10;
-      background-image: url('https://ibb.co/BKBfMGLS');
+      background-image: url('https://i.ibb.co/3mR4K8p/f10ff1ddaabd15e00687344eece8f745.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -232,7 +232,7 @@
       opacity: 0;
       transform: scale(0.92);
       pointer-events: none;
-      background-image: url('https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024');
+      background-image: url('https://i.ibb.co/3mR4K8p/f10ff1ddaabd15e00687344eece8f745.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -318,8 +318,6 @@
 
     .app-header {
       height: 90px;
-      padding-top: 40px;
-      padding-x: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -353,7 +351,6 @@
       cursor: pointer;
     }
 
-    /* App Specific Styling */
     .calc-btn {
       width: 65px;
       height: 65px;
@@ -364,7 +361,6 @@
       cursor: pointer;
     }
 
-    /* Shake Animation for Wrong Passcode */
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
       20%, 60% { transform: translateX(-12px); }
@@ -406,7 +402,7 @@
 
       <!-- Passcode Screen -->
       <div class="passcode-screen" id="passcodeScreen">
-        <div class="passcode-title">ป้อนรหัสรหัสผ่าน</div>
+        <div class="passcode-title">ป้อนรหัสผ่าน</div>
         <div class="passcode-dots" id="passcodeDots">
           <div class="dot"></div>
           <div class="dot"></div>
@@ -431,31 +427,41 @@
 
       <!-- Home Screen -->
       <div class="home-screen" id="homeScreen">
-        <!-- Main Apps Grid -->
+        <!-- Main Apps Grid (ตามลำดับ: Instagram, YouTube, รายชื่อ, โทร, รูปภาพ, กล้อง, ไลน์) -->
         <div class="app-grid">
           <!-- Instagram -->
           <div class="app-item" onclick="openApp('instagramApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kLO7z1U4W1aG7B_4uK32G9u4hH2T2G5d0T7W-a=s256" alt="Instagram"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/3s8vR6G/e3e6d1c4355a6213f8e7ec88d5ced07b.jpg" alt="Instagram"></div>
             <div class="app-name">Instagram</div>
           </div>
           <!-- YouTube -->
           <div class="app-item" onclick="openApp('youtubeApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP9f89XvR_mN0R24x0Q8M3P-M6A3K_J6G-a8S8=s256" alt="YouTube"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/6y4j151/fdd60b7fb679fef4373f963d56a7d176.jpg" alt="YouTube"></div>
             <div class="app-name">YouTube</div>
           </div>
           <!-- รายชื่อ -->
           <div class="app-item" onclick="openApp('contactsApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP09N_bBv15tI_0zZ-F8U7d-M3J5C4G8R7C4m4=s256" alt="รายชื่อ"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/5W8f3v9/7f52b6a8a42927374571f4ead913072a.jpg" alt="รายชื่อ"></div>
             <div class="app-name">รายชื่อ</div>
+          </div>
+          <!-- โทร -->
+          <div class="app-item" onclick="openApp('phoneApp')">
+            <div class="app-icon"><img src="https://i.ibb.co/8L4k3m1/2802841b35e2f45c45a71be93127184f.jpg" alt="โทร"></div>
+            <div class="app-name">โทร</div>
           </div>
           <!-- รูปภาพ -->
           <div class="app-item" onclick="openApp('photosApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kMlR78R_8x7P1P3N1X2x8m4W9E6M7K0R1P2T3Q=s256" alt="รูปภาพ"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/9K3m1L8/f7ef905f14b4f882d5c442c79cee4ec9.jpg" alt="รูปภาพ"></div>
             <div class="app-name">รูปภาพ</div>
+          </div>
+          <!-- กล้อง -->
+          <div class="app-item" onclick="openApp('cameraApp')">
+            <div class="app-icon"><img src="https://i.ibb.co/2L4k3m1/71d869b965be656020b1c39163eb2408.jpg" alt="กล้อง"></div>
+            <div class="app-name">กล้อง</div>
           </div>
           <!-- ไลน์ -->
           <div class="app-item" onclick="openApp('lineApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP_G_M8C8n6V61E3G9d0A4x3X2Y7R_K_2N_R_A=s256" alt="ไลน์"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/1K3m8L4/a2b3f1b555ef4a417358be56bfa4e54a.jpg" alt="ไลน์"></div>
             <div class="app-name">ไลน์</div>
           </div>
           <!-- โน้ต -->
@@ -483,17 +489,12 @@
             <div class="app-icon" style="background: #22c55e;"><i class="fa-solid fa-video"></i></div>
             <div class="app-name">FaceTime</div>
           </div>
-          <!-- เครื่องคิดเลข -->
-          <div class="app-item" onclick="openApp('calcApp')">
-            <div class="app-icon" style="background: #333;"><i class="fa-solid fa-calculator"></i></div>
-            <div class="app-name">เครื่องคิดเลข</div>
-          </div>
         </div>
 
         <!-- Dock Bar (เรียง โทร, Safari, ข้อความ, กล้อง) -->
         <div class="dock-container">
           <div class="app-item" onclick="openApp('phoneApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kI_x8y4M91K1T3p_F6C_x1K_M7M3C5E_S_P4m8=s256" alt="โทร"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/8L4k3m1/2802841b35e2f45c45a71be93127184f.jpg" alt="โทร"></div>
           </div>
           <div class="app-item" onclick="openApp('safariApp')">
             <div class="app-icon" style="background: #fff; color: #007aff;"><i class="fa-compass fa-regular" style="font-size: 38px;"></i></div>
@@ -502,14 +503,12 @@
             <div class="app-icon" style="background: #22c55e;"><i class="fa-solid fa-comment"></i></div>
           </div>
           <div class="app-item" onclick="openApp('cameraApp')">
-            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP-x_9S_C9B4x2K1V_8X_1C_1M4Q_5P_9R_4M8=s256" alt="กล้อง"></div>
+            <div class="app-icon"><img src="https://i.ibb.co/2L4k3m1/71d869b965be656020b1c39163eb2408.jpg" alt="กล้อง"></div>
           </div>
         </div>
       </div>
 
       <!-- Application Windows -->
-
-      <!-- โทร (Phone) -->
       <div class="app-view" id="phoneApp">
         <div class="app-header"><h2>โทรศัพท์</h2></div>
         <div class="app-content" style="text-align: center;">
@@ -534,17 +533,14 @@
         </div>
       </div>
 
-      <!-- Safari -->
       <div class="app-view" id="safariApp">
         <div class="app-header"><h2>Safari</h2></div>
         <div class="app-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
           <i class="fa-compass fa-regular" style="font-size: 64px; color: #007aff; margin-bottom: 20px;"></i>
           <h3>ยินดีต้อนรับสู่ Safari</h3>
-          <p style="color: #888; font-size: 14px; margin-top: 8px;">เบราว์เซอร์สำหรับ iOS 18</p>
         </div>
       </div>
 
-      <!-- ข้อความ (Messages) -->
       <div class="app-view" id="messagesApp">
         <div class="app-header"><h2>ข้อความ</h2></div>
         <div class="app-content">
@@ -555,7 +551,6 @@
         </div>
       </div>
 
-      <!-- กล้อง (Camera) -->
       <div class="app-view" id="cameraApp">
         <div class="app-header"><h2>กล้องถ่ายรูป</h2></div>
         <div class="app-content" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #000; padding-bottom: 30px;">
@@ -566,17 +561,14 @@
         </div>
       </div>
 
-      <!-- Instagram -->
       <div class="app-view" id="instagramApp">
         <div class="app-header"><h2>Instagram</h2></div>
         <div class="app-content" style="display: flex; flex-direction: column; align-items: center; padding-top: 40px;">
-          <img src="https://lh3.googleusercontent.com/gg/AEmR8kLO7z1U4W1aG7B_4uK32G9u4hH2T2G5d0T7W-a=s256" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 15px;">
+          <img src="https://i.ibb.co/3s8vR6G/e3e6d1c4355a6213f8e7ec88d5ced07b.jpg" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 15px;">
           <h3>Instagram Feed</h3>
-          <p style="color: #888; font-size: 13px; margin-top: 5px;">เชื่อมต่อบัญชีของคุณแล้ว</p>
         </div>
       </div>
 
-      <!-- YouTube -->
       <div class="app-view" id="youtubeApp">
         <div class="app-header"><h2>YouTube</h2></div>
         <div class="app-content">
@@ -587,27 +579,23 @@
         </div>
       </div>
 
-      <!-- รายชื่อ (Contacts) -->
       <div class="app-view" id="contactsApp">
         <div class="app-header"><h2>รายชื่อ</h2></div>
         <div class="app-content">
           <div style="padding: 12px 0; border-bottom: 1px solid #222;">คุณ (My Card)</div>
           <div style="padding: 12px 0; border-bottom: 1px solid #222;">เพื่อนสนิท</div>
-          <div style="padding: 12px 0; border-bottom: 1px solid #222;">ครอบครัว</div>
         </div>
       </div>
 
-      <!-- รูปภาพ (Photos) -->
       <div class="app-view" id="photosApp">
         <div class="app-header"><h2>รูปภาพ</h2></div>
         <div class="app-content">
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
-            <img src="https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024" style="width: 100%; height: 100px; object-fit: cover; border-radius: 6px;">
+            <img src="https://i.ibb.co/3mR4K8p/f10ff1ddaabd15e00687344eece8f745.jpg" style="width: 100%; height: 100px; object-fit: cover; border-radius: 6px;">
           </div>
         </div>
       </div>
 
-      <!-- ไลน์ (LINE) -->
       <div class="app-view" id="lineApp">
         <div class="app-header" style="background: #06c755;"><h2>LINE</h2></div>
         <div class="app-content">
@@ -621,7 +609,6 @@
         </div>
       </div>
 
-      <!-- โน้ต (Notes) -->
       <div class="app-view" id="notesApp">
         <div class="app-header"><h2>โน้ต</h2></div>
         <div class="app-content">
@@ -629,7 +616,6 @@
         </div>
       </div>
 
-      <!-- Spotify -->
       <div class="app-view" id="spotifyApp">
         <div class="app-header"><h2>Spotify</h2></div>
         <div class="app-content" style="text-align: center; padding-top: 40px;">
@@ -638,7 +624,6 @@
         </div>
       </div>
 
-      <!-- นาฬิกา (Clock) -->
       <div class="app-view" id="clockApp">
         <div class="app-header"><h2>นาฬิกา</h2></div>
         <div class="app-content" style="text-align: center; padding-top: 50px;">
@@ -646,7 +631,6 @@
         </div>
       </div>
 
-      <!-- แผนที่ (Maps) -->
       <div class="app-view" id="mapsApp">
         <div class="app-header"><h2>แผนที่</h2></div>
         <div class="app-content" style="display: flex; align-items: center; justify-content: center; height: 100%;">
@@ -654,7 +638,6 @@
         </div>
       </div>
 
-      <!-- FaceTime -->
       <div class="app-view" id="facetimeApp">
         <div class="app-header"><h2>FaceTime</h2></div>
         <div class="app-content" style="text-align: center; padding-top: 40px;">
@@ -663,7 +646,6 @@
         </div>
       </div>
 
-      <!-- เครื่องคิดเลข (Calculator) -->
       <div class="app-view" id="calcApp">
         <div class="app-header"><h2>เครื่องคิดเลข</h2></div>
         <div class="app-content" style="display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 20px;">
@@ -702,7 +684,6 @@
     let passcode = "";
     const correctPasscode = "1109";
 
-    // Update Clock
     function updateClock() {
       const now = new Date();
       const hours = String(now.getHours()).padStart(2, '0');
@@ -718,7 +699,6 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Lock & Passcode Logic
     function showPasscode() {
       document.getElementById('passcodeScreen').classList.add('active');
     }
@@ -771,7 +751,6 @@
       }
     }
 
-    // App Navigation
     function openApp(appId) {
       document.getElementById(appId).classList.add('active');
     }
@@ -783,14 +762,12 @@
       }
     }
 
-    // Phone App Dialer
     let dialNum = "";
     function dial(num) {
       dialNum += num;
       document.getElementById('dialDisplay').innerText = dialNum;
     }
 
-    // Calculator Logic
     let calcVal = "0";
     function calcInput(num) {
       if (calcVal === "0") calcVal = num;
