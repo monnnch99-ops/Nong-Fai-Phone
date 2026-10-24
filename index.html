@@ -119,7 +119,7 @@
                 <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
                 
                 <div class="passcode-container">
-                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน (รหัส: 1234)</div>
+                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน<
                     <div class="dots-container">
                         <div class="dot" id="dot0"></div>
                         <div class="dot" id="dot1"></div>
@@ -154,3 +154,106 @@
                 <div class="app-icon" onclick="openApp('weatherApp')">
                     <img src="https://icons8.com"><span>สภาพอากาศ</span>
                 </div>
+                <!-- 🧠 ใส่โค้ดสมองควบคุม (JavaScript) กลับเข้าไปตรงนี้ -->
+    <script>
+        // 🔐 ตั้งรหัสผ่านเข้าเครื่องตรงนี้
+        const CORRECT_PASSCODE = "1234"; 
+        let enteredPasscode = "";
+
+        // ฟังก์ชันทำงานเมื่อกดปุ่มตัวเลขหน้าล็อคสกรีน
+        function pressKey(num) {
+            if (enteredPasscode.length >= 4) return;
+            enteredPasscode += num;
+            updatePasscodeDots();
+            
+            // เมื่อกดครบ 4 หลัก ทำการเช็ครหัสผ่านทันที
+            if (enteredPasscode.length === 4) {
+                setTimeout(() => {
+                    if (enteredPasscode === CORRECT_PASSCODE) {
+                        // รหัสถูก -> สั่งปิดหน้าจอล็อกทิ้งทันทีเพื่อเข้าหน้าหลักชัวร์ๆ
+                        document.getElementById('lockScreen').style.display = 'none'; 
+                    } else {
+                        // รหัสผิด -> สั่นเตือนสีแดงแล้วล้างข้อความ
+                        document.getElementById('passcodeLabel').innerText = "รหัสผิด! ลองใหม่อีกครั้ง";
+                        document.getElementById('passcodeLabel').style.color = "#ff3b30";
+                        enteredPasscode = "";
+                        updatePasscodeDots();
+                        setTimeout(() => {
+                            document.getElementById('passcodeLabel').innerText = "ป้อนรหัสผ่านเพื่อเปิดใช้งาน (รหัส: 1234)";
+                            document.getElementById('passcodeLabel').style.color = "white";
+                        }, 1200);
+                    }
+                }, 200);
+            }
+        }
+
+        // ฟังก์ชันลบตัวเลข
+        function deleteKey() {
+            if (enteredPasscode.length > 0) {
+                enteredPasscode = enteredPasscode.slice(0, -1);
+                updatePasscodeDots();
+            }
+        }
+
+        // ฟังก์ชันจุดวงกลมรหัสผ่าน
+        function updatePasscodeDots() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(dot${i});
+                if (dot) {
+                    if (i < enteredPasscode.length) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                }
+            }
+        }
+
+        // ฟังก์ชันระบบ เปิด-ปิด แอปในหน้าจอหลัก
+        function openApp(appId) { document.getElementById(appId).classList.add('active'); }
+        function closeApp(appId) { document.getElementById(appId).classList.remove('active'); }
+
+        // ระบบอัปเดตเวลาจริงอ้างอิงจากมือถือไอโฟน 16
+        function updateClock() {
+            const now = new Date();
+            const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('lockTime').innerText = timeStr;
+            document.getElementById('statusTime').innerText = timeStr;
+            
+            const days = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
+            const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+            document.getElementById('lockDate').innerText = ${days[now.getDay()]}ที่ ${now.getDate()} ${months[now.getMonth()]};
+
+            if(document.getElementById('appClock')) {
+                document.getElementById('appClock').innerText = timeStr + ':' + String(now.getSeconds()).padStart(2, '0');
+            }
+        }
+        setInterval(updateClock, 1000); updateClock();
+
+        // ระบบโต้ตอบแอป LINE
+        function sendLineMessage() {
+            const input = document.getElementById('lineInput'); const chatBox = document.getElementById('lineChatBox');
+            if (!input.value.trim()) return;
+            const msg = document.createElement('div'); msg.className = 'msg user'; msg.innerText = input.value;
+            chatBox.appendChild(msg); const text = input.value; input.value = ''; chatBox.scrollTop = chatBox.scrollHeight;
+            setTimeout(() => {
+                const reply = document.createElement('div'); reply.className = 'msg bot';
+                if(text.includes('สวัสดี')) reply.innerText = 'สวัสดีค่า ยินดีที่ได้คุยกันนะคะ! 💚';
+                else reply.innerText = 'รับทราบข้อความจ้า! มีอะไรให้ช่วยอีกไหมคะ? ✨';
+                chatBox.appendChild(reply); chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+
+        // ระบบแอปเครื่องคิดเลข
+        let calcVal = '';
+        function pressCalc(num) { calcVal += num; document.getElementById('calcScreen').innerText = calcVal; }
+        function clearCalc() { calcVal = ''; document.getElementById('calcScreen').innerText = '0'; }
+        function calculateResult() {
+            try {
+                let res = eval(calcVal);
+                document.getElementById('calcScreen').innerText = res; calcVal = String(res);
+            } catch {
+                document.getElementById('calcScreen').innerText = 'Error'; calcVal = '';
+            }
+        }
+    </script>
