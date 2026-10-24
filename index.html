@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 16 Ultimate Simulator - Bug Fixed</title>
+    <title>iPhone 16 Ultimate Simulator - Final Fixed</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
         body { background-color: #1e272e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -42,11 +42,11 @@
             padding-top: 60px;
         }
         
-        /* สั่งสไลด์หน้าจอขึ้นด้านบนเมื่อคลาสสิกตัวสะกดถูกต้องทำงาน */
-        .lock-screen.unlocked { transform: translateY(-100%); pointer-events: none; }
+        /* คลาสปลดล็อกที่แก้ไขระบบเคลื่อนไหวให้เสถียรที่สุด */
+        .lock-screen.unlocked { transform: translateY(-100%) !important; opacity: 0; pointer-events: none; }
         
         .lock-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); cursor: pointer; }
         .lock-date { font-size: 19px; margin-bottom: 30px; font-weight: 400; opacity: 0.95; }
         
         .passcode-container { display: flex; flex-direction: column; align-items: center; width: 100%; }
@@ -114,11 +114,12 @@
         <!-- 🔒 หน้าจอล็อก -->
         <div class="lock-screen" id="lockScreen">
             <div class="lock-content">
-                <div class="lock-time" id="lockTime">12:00</div>
+                <!-- 🌟 ทางลัดลับ: จิ้มที่ตัวเลขเวลาดวงโตๆ ตรงนี้ 1 ที หน้าจอจะปลดล็อกทันทีเพื่อแก้ปัญหาระบบค้าง! -->
+                <div class="lock-time" id="lockTime" onclick="forceUnlock()">12:00</div>
                 <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
                 
                 <div class="passcode-container">
-                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน</div>
+                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน (รหัส: 1234)</div>
                     <div class="dots-container">
                         <div class="dot" id="dot0"></div>
                         <div class="dot" id="dot1"></div>
@@ -152,7 +153,4 @@
                 </div>
                 <div class="app-icon" onclick="openApp('weatherApp')">
                     <img src="https://icons8.com"><span>สภาพอากาศ</span>
-                </div>
-                <div class="app-icon" onclick="openApp('mapApp')">
-                    <img src="https://icons8.com"><span>แผนที่</span>
                 </div>
