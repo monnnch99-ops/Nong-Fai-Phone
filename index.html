@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 16 Simulator</title>
+    <title>iPhone 16 Passcode Simulator</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
         body { background-color: #1e272e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -25,27 +25,43 @@
             z-index: 2000; transition: 0.3s ease-in-out;
         }
 
-        /* แถบสถานะด้านบน (Status Bar) */
+        /* แถบสถานะด้านบน (Status Bar) อัปเกรดใหม่ตามสั่ง */
         .status-bar {
             position: absolute; top: 0; left: 0; right: 0; height: 40px;
             padding: 13px 24px 0 24px; display: flex; justify-content: space-between;
             align-items: center; color: white; font-size: 12px; font-weight: 600; z-index: 1500;
         }
-        .status-right { display: flex; align-items: center; gap: 5px; }
+        .status-right { display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
 
-        /* หน้าจอล็อค */
+        /* หน้าจอล็อคสมจริงขั้นสุด */
         .lock-screen {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(15px);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: white; z-index: 1000; transition: 0.5s ease;
+            background: rgba(0,0,0,0.25); backdrop-filter: blur(20px);
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            color: white; z-index: 1000; transition: 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+            padding-top: 60px;
         }
-        .lock-time { font-size: 64px; font-weight: 200; margin-top: 40px; }
-        .lock-date { font-size: 18px; margin-bottom: 40px; opacity: 0.9; }
-        .unlock-btn {
-            background: rgba(255,255,255,0.25); color: white; border: none;
-            padding: 12px 30px; border-radius: 25px; font-size: 15px; cursor: pointer; backdrop-filter: blur(5px);
+        .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; }
+        .lock-date { font-size: 19px; margin-bottom: 30px; font-weight: 400; opacity: 0.95; }
+        
+        /* หน้าจอแป้นพิมพ์พิมพ์รหัส Passcode */
+        .passcode-container { display: flex; flex-direction: column; align-items: center; width: 100%; transition: 0.3s; }
+        .passcode-label { font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; }
+        
+        /* จุดแสดงผลจุดรหัส 4 จุด */
+        .dots-container { display: flex; gap: 15px; margin-bottom: 30px; }
+        .dot { width: 12px; height: 12px; border: 1.5px solid white; border-radius: 50%; transition: 0.1s; }
+        .dot.active { background: white; }
+        
+        /* แผงปุ่มกดตัวเลขทรงกลม */
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; }
+        .key {
+            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15);
+            display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 400;
+            cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);
         }
+        .key:active { background: rgba(255,255,255,0.4); }
+        .key-action { font-size: 13px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; }
 
         /* หน้าจอหลัก (Home Screen) */
         .main-screen-container { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 15px 15px 15px; }
@@ -68,8 +84,7 @@
         .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 16px; color: #333; }
         .back-btn { border: none; background: none; font-size: 20px; margin-right: 12px; cursor: pointer; color: #007aff; }
 
-        /* --- ฟังก์ชั่นสไตล์ภายในแอปใหม่ --- */
-        /* LINE & ข้อความ */
+        /* ระบบแอปย่อย */
         .chat-box { flex: 1; padding: 15px; overflow-y: auto; background: #abc1d1; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 9px 13px; border-radius: 16px; max-width: 75%; font-size: 14px; }
         .msg.bot { background: white; align-self: flex-start; }
@@ -87,10 +102,10 @@
 
         /* โน้ต */
         .notes-area { flex: 1; padding: 15px; border: none; outline: none; font-size: 16px; resize: none; background: #fffdf3; }
-
+        
         /* สภาพอากาศ */
         .weather-body { flex: 1; background: linear-gradient(to bottom, #5ac8fa, #5085a5); color: white; padding: 30px; text-align: center; }
-
+        
         /* แผนที่ */
         .map-body { flex: 1; background: #e5e3df url('https://icons8.com') center/no-repeat; background-size: 100px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
     </style>
@@ -98,29 +113,52 @@
 <body>
 
     <div class="phone">
-        <!-- แถบสถานะแบบ iPhone 16 -->
+        <!-- แถบสถานะด้านบน (Status Bar) ปรับใหม่: ลบตัวเลขเปอร์เซ็นต์ แบตเป็นก้อนสัญญาณเดี่ยว -->
         <div class="status-bar">
             <span id="statusTime">12:00</span>
             <div class="status-right">
+                <span>📶</span>
                 <span>5G</span>
-                <span id="statusBattery">🔋 100%</span>
+                <span>🔋</span>
             </div>
         </div>
 
         <!-- Dynamic Island -->
         <div class="dynamic-island"></div>
 
-        <!-- หน้าจอล็อค -->
+        <!-- หน้าจอล็อคสมจริง พร้อมแป้นพิมพ์ใส่รหัส Passcode -->
         <div class="lock-screen" id="lockScreen">
             <div class="lock-time" id="lockTime">12:00</div>
-            <div class="lock-date">วันเสาร์ที่ 24 ตุลาคม</div>
-            <button class="unlock-btn" onclick="unlockPhone()">สไลด์เพื่อเปิดใช้งาน</button>
+            <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
+            
+            <div class="passcode-container">
+                <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน</div>
+                <div class="dots-container">
+                    <div class="dot" id="dot0"></div>
+                    <div class="dot" id="dot1"></div>
+                    <div class="dot" id="dot2"></div>
+                    <div class="dot" id="dot3"></div>
+                </div>
+                
+                <div class="keypad">
+                    <div class="key" onclick="pressKey(1)">1</div>
+                    <div class="key" onclick="pressKey(2)">2</div>
+                    <div class="key" onclick="pressKey(3)">3</div>
+                    <div class="key" onclick="pressKey(4)">4</div>
+                    <div class="key" onclick="pressKey(5)">5</div>
+                    <div class="key" onclick="pressKey(6)">6</div>
+                    <div class="key" onclick="pressKey(7)">7</div>
+                    <div class="key" onclick="pressKey(😎">8</div>
+                    <div class="key" onclick="pressKey(9)">9</div>
+                    <button class="key-action" disabled></button>
+                    <div class="key" onclick="pressKey(0)">0</div>
+                    <button class="key-action" onclick="deleteKey()">ลบ</button>
+                </div>
+            </div>
         </div>
 
         <!-- หน้าจอหลัก (Home Screen) -->
         <div class="main-screen-container">
-            
-            <!-- ตารางแอปทั่วไปด้านบน -->
             <div class="apps-grid">
                 <div class="app-icon" onclick="openApp('lineApp')">
                     <img src="https://icons8.com"><span>LINE</span>
@@ -131,47 +169,3 @@
                 <div class="app-icon" onclick="openApp('mapApp')">
                     <img src="https://icons8.com"><span>แผนที่</span>
                 </div>
-                <div class="app-icon" onclick="openApp('noteApp')">
-                    <img src="https://icons8.com"><span>โน้ต</span>
-                </div>
-                <div class="app-icon" onclick="openApp('calcApp')">
-                    <img src="https://icons8.com"><span>เครื่องคิดเลข</span>
-                </div>
-                <div class="app-icon" onclick="openApp('youtubeApp')">
-                    <img src="https://icons8.com"><span>YouTube</span>
-                </div>
-                <div class="app-icon" onclick="openApp('igApp')">
-                    <img src="https://icons8.com"><span>Instagram</span>
-                </div>
-                <div class="app-icon" onclick="openApp('clockApp')">
-                    <img src="https://icons8.com"><span>นาฬิกา</span>
-                </div>
-                <div class="app-icon" onclick="openApp('galleryApp')">
-                    <img src="https://icons8.com"><span>รูปภาพ</span>
-                </div>
-                <div class="app-icon" onclick="openApp('calendarApp')">
-                    <img src="https://icons8.com"><span>ปฏิทิน</span>
-                </div>
-            </div>
-
-            <!-- แถบ DOCK ด้านล่างสุดตามลำดับที่ขอ -->
-            <div class="bottom-dock">
-                <div class="app-icon" onclick="alert('ฟังก์ชั่นโทรศัพท์พื้นฐานเปิดทำงาน')">
-                    <img src="https://icons8.com"><span>โทร</span>
-                </div>
-                <div class="app-icon" onclick="alert('ยินดีต้อนรับสู่ Safari Browser')">
-                    <img src="https://icons8.com"><span>Safari</span>
-                </div>
-                <div class="app-icon" onclick="openApp('messageApp')">
-                    <img src="https://icons8.com"><span>ข้อความ</span>
-                </div>
-                <div class="app-icon" onclick="openApp('cameraApp')">
-                    <img src="https://icons8.com"><span>กล้อง</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- --- ระบบภายในแอปพลิเคชัน --- -->
-
-        <!-- LINE -->
-        <div class="app-window" id="lineApp">
