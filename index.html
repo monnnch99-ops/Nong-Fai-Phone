@@ -1,259 +1,1154 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 16 Ultimate Simulator - Final Fixed</title>
-    <style>
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
-        body { background-color: #1e272e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        
-        /* 📱 ตัวเครื่อง iPhone 16 */
-        .phone {
-            width: 375px; height: 780px;
-            background: url('https://unsplash.com') center/cover;
-            border: 12px solid #111; border-radius: 45px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            position: relative; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iPhone 16 Pro Simulator (iOS 18 - Passcode: 1109)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Leaflet Map CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-        /* 🔘 Dynamic Island */
-        .dynamic-island {
-            position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
-            width: 110px; height: 25px; background: black; border-radius: 20px;
-            z-index: 2000;
-        }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap');
 
-        /* 📶 แถบสถานะด้านบน */
-        .status-bar {
-            position: absolute; top: 0; left: 0; right: 0; height: 40px;
-            padding: 13px 24px 0 24px; display: flex; justify-content: space-between;
-            align-items: center; color: white; font-size: 12px; font-weight: 600; z-index: 1500;
-        }
-        .status-right { display: flex; align-items: center; gap: 6px; }
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Kanit", sans-serif;
+    }
 
-        /* 🔒 หน้าจอล็อก (Lock Screen) */
-        .lock-screen {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://unsplash.com') center/cover;
-            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-            color: white; z-index: 1000; transition: transform 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
-            padding-top: 60px;
-        }
-        
-        /* คลาสปลดล็อกที่แก้ไขระบบเคลื่อนไหวให้เสถียรที่สุด */
-        .lock-screen.unlocked { transform: translateY(-100%) !important; opacity: 0; pointer-events: none; }
-        
-        .lock-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); cursor: pointer; }
-        .lock-date { font-size: 19px; margin-bottom: 30px; font-weight: 400; opacity: 0.95; }
-        
-        .passcode-container { display: flex; flex-direction: column; align-items: center; width: 100%; }
-        .passcode-label { font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-        
-        .dots-container { display: flex; gap: 15px; margin-bottom: 30px; }
-        .dot { width: 12px; height: 12px; border: 1.5px solid white; border-radius: 50%; transition: 0.1s; }
-        .dot.active { background: white; }
-        
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; }
-        .key-btn {
-            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.18);
-            color: white; border: 1px solid rgba(255,255,255,0.1); font-size: 24px; font-weight: 400;
-            display: flex; justify-content: center; align-items: center; cursor: pointer; outline: none;
-            backdrop-filter: blur(8px); -webkit-tap-highlight-color: transparent; transition: background 0.1s;
-        }
-        .key-btn:active { background: rgba(255,255,255,0.45); }
-        .key-action-btn { font-size: 14px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; outline: none; }
+    body {
+      background: #090d16;
+      color: #ffffff;
+    }
 
-        /* 🏠 หน้าจอหลัก */
-        .main-screen-container { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 15px 15px 15px; }
-        .apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow-y: auto; padding-bottom: 10px; }
-        .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 11px; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
-        .app-icon img { width: 55px; height: 55px; border-radius: 13px; margin-bottom: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); background: white; object-fit: cover; }
-        
-        .bottom-dock {
-            background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px);
-            border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px;
-        }
+    /* iPhone 16 Chassis (Titanium Frame) */
+    .iphone-16-chassis {
+      width: 412px;
+      height: 840px;
+      background: linear-gradient(145deg, #333538 0%, #1c1d1f 50%, #111214 100%);
+      border-radius: 56px;
+      padding: 14px;
+      position: relative;
+      box-shadow: 0 0 0 2px #4a4d52,
+                  0 30px 80px rgba(0, 0, 0, 0.8),
+                  inset 0 0 6px rgba(255, 255, 255, 0.2);
+    }
 
-        .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s ease-out; display: flex; flex-direction: column; padding-top: 40px; }
-        .app-window.active { top: 0; }
-        .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 16px; color: #333; }
-        .back-btn { border: none; background: none; font-size: 20px; margin-right: 12px; cursor: pointer; color: #007aff; }
+    /* Action & Side Buttons */
+    .action-button {
+      position: absolute;
+      left: -5px;
+      top: 130px;
+      width: 5px;
+      height: 30px;
+      background: #4a4d52;
+      border-radius: 3px 0 0 3px;
+    }
+    .volume-up-btn {
+      position: absolute;
+      left: -5px;
+      top: 175px;
+      width: 5px;
+      height: 52px;
+      background: #4a4d52;
+      border-radius: 3px 0 0 3px;
+    }
+    .volume-down-btn {
+      position: absolute;
+      left: -5px;
+      top: 238px;
+      width: 5px;
+      height: 52px;
+      background: #4a4d52;
+      border-radius: 3px 0 0 3px;
+    }
+    .power-btn-16 {
+      position: absolute;
+      right: -5px;
+      top: 190px;
+      width: 5px;
+      height: 75px;
+      background: #4a4d52;
+      border-radius: 0 3px 3px 0;
+      cursor: pointer;
+    }
 
-        .chat-box { flex: 1; padding: 15px; overflow-y: auto; background: #abc1d1; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 9px 13px; border-radius: 16px; max-width: 75%; font-size: 14px; }
-        .msg.bot { background: white; align-self: flex-start; }
-        .msg.user { background: #fee500; align-self: flex-end; }
-        .chat-input { padding: 10px; display: flex; gap: 8px; background: white; border-top: 1px solid #ddd; }
-        .chat-input input { flex: 1; padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
-        .chat-input button { border: none; background: #fee500; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+    /* Screen Frame */
+    .iphone-16-screen {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-        .calc-screen { background: #000; color: white; text-align: right; padding: 20px; font-size: 40px; font-family: monospace; }
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 15px; background: #000; flex: 1; }
-        .calc-btn { background: #333; color: white; border: none; font-size: 22px; border-radius: 50%; height: 60px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .calc-btn.orange { background: #ff9f0a; }
-        .calc-btn.gray { background: #a5a5a5; color: black; }
+    /* iOS 18 Dynamic Wallpaper */
+    .ios18-wallpaper {
+      background: radial-gradient(circle at 20% 20%, #ff4b2b 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, #ff416c 0%, transparent 40%),
+                  radial-gradient(circle at 50% 50%, #8a2387 0%, transparent 60%),
+                  linear-gradient(135deg, #0f0c29 0%, #24243e 100%);
+      background-size: 150% 150%;
+      animation: wallpaperGlow 15s ease infinite alternate;
+    }
 
-        .notes-area { flex: 1; padding: 15px; border: none; outline: none; font-size: 16px; resize: none; background: #fffdf3; }
-        .weather-body { flex: 1; background: linear-gradient(to bottom, #5ac8fa, #5085a5); color: white; padding: 30px; text-align: center; }
-        .map-body { flex: 1; background: #e5e3df url('https://icons8.com') center/no-repeat; background-size: 100px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
-    </style>
+    @keyframes wallpaperGlow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 30px;
+      width: 110px;
+      background-color: #000;
+      border-radius: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(0,0,0,0.8);
+      cursor: pointer;
+    }
+
+    .dynamic-island.expanded {
+      width: 320px;
+      height: 80px;
+      border-radius: 32px;
+      padding: 12px 18px;
+    }
+
+    /* iOS 18 Glassmorphism Glass Card */
+    .glass-pill {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* App Icon Styling */
+    .app-icon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .app-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 27px;
+      color: white;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.15s ease;
+      position: relative;
+    }
+
+    .app-icon:active {
+      transform: scale(0.85);
+      filter: brightness(0.8);
+    }
+
+    /* iOS Dock */
+    .ios18-dock {
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(35px);
+      -webkit-backdrop-filter: blur(35px);
+      border-radius: 32px;
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      width: calc(100% - 24px);
+      margin: 0 auto 10px auto;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* App Modal Screen */
+    .app-modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      color: #000000;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.25s ease;
+      border-radius: 44px;
+      overflow: hidden;
+    }
+
+    .app-modal.active {
+      transform: scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Passcode Keypad Button */
+    .pass-key-btn {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+
+    .pass-key-btn:active {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Shake animation */
+    @keyframes shakeErr {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-14px); }
+      40%, 80% { transform: translateX(14px); }
+    }
+    .shake {
+      animation: shakeErr 0.4s ease-in-out;
+    }
+
+    /* Bottom Home Indicator Bar */
+    .home-indicator {
+      width: 135px;
+      height: 5px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .home-indicator:hover {
+      background-color: #ffffff;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-2">
 
-    <div class="phone">
-        <div class="status-bar">
-            <span id="statusTime">12:00</span>
-            <div class="status-right"><span>📶</span><span>5G</span><span>🔋</span></div>
+  <!-- Main iPhone 16 Container -->
+  <div class="iphone-16-chassis">
+    
+    <!-- Physical Side Buttons -->
+    <div class="action-button" onclick="triggerDynamicIsland('Action Button Pressed')" title="Action Button"></div>
+    <div class="volume-up-btn"></div>
+    <div class="volume-down-btn"></div>
+    <div class="power-btn-16" onclick="togglePowerLock()" title="Power Button"></div>
+
+    <!-- Screen Frame Viewport -->
+    <div id="iphone-screen" class="iphone-16-screen ios18-wallpaper flex flex-col justify-between relative select-none">
+      
+      <!-- Interactive Dynamic Island -->
+      <div id="dynamic-island" class="dynamic-island" onclick="toggleIslandExpand()">
+        <div id="island-left" class="flex items-center gap-1.5 text-[10px] text-white">
+          <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></div>
+        </div>
+        <div id="island-content" class="text-[11px] font-medium text-white/90 truncate max-w-[140px] hidden">
+          <span>Spotify • Music</span>
+        </div>
+        <div id="island-right" class="flex items-center gap-1">
+          <div id="island-cam-dot" class="w-2.5 h-2.5 rounded-full bg-black border border-gray-800"></div>
+        </div>
+      </div>
+
+      <!-- iOS 18 Status Bar -->
+      <div class="h-11 px-7 pt-3 flex justify-between items-center text-xs text-white font-semibold z-50">
+        <div id="status-time" class="text-[13px] tracking-tight pl-1">11:30</div>
+        <div class="flex items-center gap-1.5 text-[11px] pr-1">
+          <i class="fa-solid fa-signal text-[10px]"></i>
+          <span class="text-[10px] font-bold">5G</span>
+          <i class="fa-solid fa-wifi text-[10px]"></i>
+          <div class="flex items-center gap-0.5 bg-black/30 backdrop-blur-md px-1.5 py-0.5 rounded-full border border-white/20">
+            <span class="text-[9px] font-bold">100</span>
+            <i class="fa-solid fa-battery-full text-[11px] text-emerald-400"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 1. LOCK SCREEN ================= -->
+      <div id="lock-screen" class="absolute inset-0 z-30 flex flex-col justify-between pt-16 pb-12 px-6 text-white text-center transition-all duration-500 ios18-wallpaper">
+        <!-- Date & Clock -->
+        <div class="flex flex-col items-center mt-2">
+          <div id="lock-date-text" class="text-xs font-semibold uppercase tracking-widest text-white/80">วันเสาร์ที่ 24 ตุลาคม</div>
+          <div id="lock-clock-text" class="text-7xl font-bold tracking-tight text-white mt-1 drop-shadow-lg">11:30</div>
+          <div class="mt-3 flex items-center gap-2 glass-pill px-3 py-1 rounded-full text-xs text-white/90 shadow-sm">
+            <i class="fa-solid fa-lock text-[10px]"></i>
+            <span class="text-[11px]">แตะหรือเลื่อนขึ้นเพื่อปลดล็อก</span>
+          </div>
         </div>
 
-        <div class="dynamic-island"></div>
+        <!-- Lock Screen Bottom Shortcuts -->
+        <div class="flex justify-between items-end px-4 mb-2">
+          <button onclick="toggleTorch(this)" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-lg active:scale-90 transition-transform">
+            <i class="fa-solid fa-flashlight"></i>
+          </button>
+          <button onclick="openApp('app-camera')" class="w-12 h-12 rounded-full glass-pill flex items-center justify-center text-lg active:scale-90 transition-transform">
+            <i class="fa-solid fa-camera"></i>
+          </button>
+        </div>
+      </div>
 
-        <!-- 🔒 หน้าจอล็อก -->
-        <div class="lock-screen" id="lockScreen" style="didplay: none;">
-            <div class="lock-content">
-                <!-- 🌟 ทางลัดลับ: จิ้มที่ตัวเลขเวลาดวงโตๆ ตรงนี้ 1 ที หน้าจอจะปลดล็อกทันทีเพื่อแก้ปัญหาระบบค้าง! -->
-                <div class="lock-time" id="lockTime" onclick="forceUnlock()">12:00</div>
-                <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
-                
-                <div class="passcode-container">
-                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน<
-                    <div class="dots-container">
-                        <div class="dot" id="dot0"></div>
-                        <div class="dot" id="dot1"></div>
-                        <div class="dot" id="dot2"></div>
-                        <div class="dot" id="dot3"></div>
-                    </div>
-                    
-                    <div class="keypad">
-                        <button class="key-btn" onclick="pressKey('1')">1</button>
-                        <button class="key-btn" onclick="pressKey('2')">2</button>
-                        <button class="key-btn" onclick="pressKey('3')">3</button>
-                        <button class="key-btn" onclick="pressKey('4')">4</button>
-                        <button class="key-btn" onclick="pressKey('5')">5</button>
-                        <button class="key-btn" onclick="pressKey('6')">6</button>
-                        <button class="key-btn" onclick="pressKey('7')">7</button>
-                        <button class="key-btn" onclick="pressKey('8')">8</button>
-                        <button class="key-btn" onclick="pressKey('9')">9</button>
-                        <button class="key-action-btn" disabled></button>
-                        <button class="key-btn" onclick="pressKey('0')">0</button>
-                        <button class="key-action-btn" onclick="deleteKey()">ลบ</button>
-                    </div>
-                </div>
+      <!-- ================= 2. PASSCODE LOCK SCREEN (Key: 1109) ================= -->
+      <div id="passcode-screen" class="absolute inset-0 z-40 bg-black/75 backdrop-blur-3xl flex flex-col justify-between pt-14 pb-8 px-6 text-white text-center transition-all duration-300 opacity-0 pointer-events-none">
+        
+        <div>
+          <i class="fa-solid fa-face-smile text-2xl text-white/80 mb-2"></i>
+          <div id="passcode-title" class="text-sm font-normal">ป้อนรหัสผ่าน</div>
+          <div id="passcode-sub" class="text-xs text-white/50 mt-0.5">รหัสปลดล็อก: 1109</div>
+          
+          <!-- 4 Passcode Indicators -->
+          <div id="passcode-dots" class="flex justify-center gap-4 mt-5">
+            <div class="w-3.5 h-3.5 rounded-full border border-white/60"></div>
+            <div class="w-3.5 h-3.5 rounded-full border border-white/60"></div>
+            <div class="w-3.5 h-3.5 rounded-full border border-white/60"></div>
+            <div class="w-3.5 h-3.5 rounded-full border border-white/60"></div>
+          </div>
+        </div>
+
+        <!-- Passcode Keypad Grid -->
+        <div class="grid grid-cols-3 gap-y-3.5 gap-x-6 px-4 my-auto justify-items-center">
+          <div class="pass-key-btn" onclick="pressPassKey('1')"><span class="text-2xl font-light">1</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('2')"><span class="text-2xl font-light">2</span><span class="text-[8px] text-white/60 font-medium">A B C</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('3')"><span class="text-2xl font-light">3</span><span class="text-[8px] text-white/60 font-medium">D E F</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('4')"><span class="text-2xl font-light">4</span><span class="text-[8px] text-white/60 font-medium">G H I</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('5')"><span class="text-2xl font-light">5</span><span class="text-[8px] text-white/60 font-medium">J K L</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('6')"><span class="text-2xl font-light">6</span><span class="text-[8px] text-white/60 font-medium">M N O</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('7')"><span class="text-2xl font-light">7</span><span class="text-[8px] text-white/60 font-medium">P Q R S</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('8')"><span class="text-2xl font-light">8</span><span class="text-[8px] text-white/60 font-medium">T U V</span></div>
+          <div class="pass-key-btn" onclick="pressPassKey('9')"><span class="text-2xl font-light">9</span><span class="text-[8px] text-white/60 font-medium">W X Y Z</span></div>
+          <div class="col-start-2 pass-key-btn" onclick="pressPassKey('0')"><span class="text-2xl font-light">0</span></div>
+        </div>
+
+        <div class="flex justify-between items-center px-4 text-xs text-white/80 font-medium">
+          <button onclick="alert('เบอร์ฉุกเฉิน: 191 / 1669')" class="hover:text-white">ฉุกเฉิน</button>
+          <button onclick="cancelPasscode()" class="hover:text-white">ยกเลิก</button>
+        </div>
+      </div>
+
+      <!-- ================= 3. HOME SCREEN ================= -->
+      <div id="home-screen" class="flex-1 flex flex-col justify-between pt-2 pb-1 px-3.5 z-10">
+        
+        <!-- App Grid & iOS Widgets -->
+        <div class="space-y-4 pt-1">
+          
+          <!-- iOS 18 Clock/Calendar Widget -->
+          <div class="glass-pill p-3.5 rounded-3xl flex justify-between items-center text-white">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-red-500 flex items-center justify-center text-xl shadow-md">
+                <i class="fa-solid fa-sun"></i>
+              </div>
+              <div>
+                <div class="text-xs font-semibold">กรุงเทพมหานคร</div>
+                <div class="text-lg font-bold">32°C <span class="text-xs font-normal opacity-80">แดดจัด</span></div>
+              </div>
             </div>
+            <div class="text-right">
+              <div class="text-[10px] text-white/70 font-medium">สูงสุด 34° | ต่ำสุด 26°</div>
+              <div class="text-xs font-semibold text-emerald-400">ดัชนี UV ต่ำ</div>
+            </div>
+          </div>
+
+          <!-- App Grid 4 Columns -->
+          <div class="grid grid-cols-4 gap-y-4 gap-x-2 text-center pt-1">
+            
+            <!-- 1. LINE -->
+            <div class="app-icon-container" onclick="openApp('app-line')">
+              <div class="app-icon bg-emerald-500">
+                <i class="fa-comment-dots"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white font-bold">3</span>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">ไลน์</span>
+            </div>
+
+            <!-- 2. Notes -->
+            <div class="app-icon-container" onclick="openApp('app-notes')">
+              <div class="app-icon bg-amber-400 text-amber-950">
+                <i class="fa-solid fa-note-sticky"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">โน้ต</span>
+            </div>
+
+            <!-- 3. Instagram -->
+            <div class="app-icon-container" onclick="openApp('app-instagram')">
+              <div class="app-icon bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600">
+                <i class="fa-brands fa-instagram"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">ไอจี</span>
+            </div>
+
+            <!-- 4. Spotify -->
+            <div class="app-icon-container" onclick="openApp('app-spotify')">
+              <div class="app-icon bg-black text-emerald-500">
+                <i class="fa-brands fa-spotify"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">Spotify</span>
+            </div>
+
+            <!-- 5. Photos -->
+            <div class="app-icon-container" onclick="openApp('app-photos')">
+              <div class="app-icon bg-white text-rose-500">
+                <i class="fa-solid fa-images"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">รูปภาพ</span>
+            </div>
+
+            <!-- 6. YouTube -->
+            <div class="app-icon-container" onclick="openApp('app-youtube')">
+              <div class="app-icon bg-red-600">
+                <i class="fa-brands fa-youtube"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">YouTube</span>
+            </div>
+
+            <!-- 7. Clock -->
+            <div class="app-icon-container" onclick="openApp('app-clock')">
+              <div class="app-icon bg-black border border-gray-800">
+                <i class="fa-solid fa-clock text-white"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">นาฬิกา</span>
+            </div>
+
+            <!-- 8. Maps -->
+            <div class="app-icon-container" onclick="openApp('app-maps')">
+              <div class="app-icon bg-sky-500">
+                <i class="fa-solid fa-map-location-dot"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">แผนที่</span>
+            </div>
+
+            <!-- 9. FaceTime -->
+            <div class="app-icon-container" onclick="openApp('app-facetime')">
+              <div class="app-icon bg-emerald-600">
+                <i class="fa-solid fa-video"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">FaceTime</span>
+            </div>
+
+            <!-- 10. Contacts -->
+            <div class="app-icon-container" onclick="openApp('app-contacts')">
+              <div class="app-icon bg-slate-600">
+                <i class="fa-solid fa-address-book"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">รายชื่อ</span>
+            </div>
+
+            <!-- 11. Calculator -->
+            <div class="app-icon-container" onclick="openApp('app-calculator')">
+              <div class="app-icon bg-orange-500">
+                <i class="fa-solid fa-calculator"></i>
+              </div>
+              <span class="text-[11px] text-white font-medium drop-shadow">เครื่องคิดเลข</span>
+            </div>
+
+          </div>
+
         </div>
 
-        <!-- 🏠 หน้าจอหลัก -->
-        <div class="main-screen-container">
-            <div class="apps-grid">
-                <div class="app-icon" onclick="openApp('lineApp')">
-                    <img src="https://icons8.com"><span>LINE</span>
-                </div>
-                <div class="app-icon" onclick="openApp('weatherApp')">
-                    <img src="https://icons8.com"><span>สภาพอากาศ</span>
-                </div>
-                <!-- 🧠 ใส่โค้ดสมองควบคุม (JavaScript) กลับเข้าไปตรงนี้ -->
-    <script>
-        // 🔐 ตั้งรหัสผ่านเข้าเครื่องตรงนี้
-        const CORRECT_PASSCODE = "1234"; 
-        let enteredPasscode = "";
+        <!-- Fixed Bottom iOS Dock (4 Required Apps) -->
+        <div class="ios18-dock">
+          <!-- 1. Phone (โทร) -->
+          <div class="app-icon bg-emerald-500" onclick="openApp('app-phone')">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <!-- 2. Safari -->
+          <div class="app-icon bg-blue-500" onclick="openApp('app-safari')">
+            <i class="fa-regular fa-compass"></i>
+          </div>
+          <!-- 3. Messages (ข้อความ) -->
+          <div class="app-icon bg-emerald-500" onclick="openApp('app-messages')">
+            <i class="fa-solid fa-comment"></i>
+          </div>
+          <!-- 4. Camera (กล้องถ่ายรูป) -->
+          <div class="app-icon bg-slate-300 text-slate-900" onclick="openApp('app-camera')">
+            <i class="fa-solid fa-camera"></i>
+          </div>
+        </div>
 
-        // ฟังก์ชันทำงานเมื่อกดปุ่มตัวเลขหน้าล็อคสกรีน
-        function pressKey(num) {
-            if (enteredPasscode.length >= 4) return;
-            enteredPasscode += num;
-            updatePasscodeDots();
-            
-            // เมื่อกดครบ 4 หลัก ทำการเช็ครหัสผ่านทันที
-            if (enteredPasscode.length === 4) {
-                setTimeout(() => {
-                    if (enteredPasscode === CORRECT_PASSCODE) {
-                        // รหัสถูก -> สั่งปิดหน้าจอล็อกทิ้งทันทีเพื่อเข้าหน้าหลักชัวร์ๆ
-                        document.getElementById('lockScreen').style.display = 'none'; 
-                    } else {
-                        // รหัสผิด -> สั่นเตือนสีแดงแล้วล้างข้อความ
-                        document.getElementById('passcodeLabel').innerText = "รหัสผิด! ลองใหม่อีกครั้ง";
-                        document.getElementById('passcodeLabel').style.color = "#ff3b30";
-                        enteredPasscode = "";
-                        updatePasscodeDots();
-                        setTimeout(() => {
-                            document.getElementById('passcodeLabel').innerText = "ป้อนรหัสผ่านเพื่อเปิดใช้งาน (รหัส: 1234)";
-                            document.getElementById('passcodeLabel').style.color = "white";
-                        }, 1200);
-                    }
-                }, 200);
-            }
+      </div>
+
+      <!-- Dynamic Home Gesture Bar -->
+      <div class="home-indicator" onclick="closeApp()"></div>
+
+      <!-- ================= APP MODAL WINDOWS ================= -->
+
+      <!-- 1. LINE APP -->
+      <div id="app-line" class="app-modal">
+        <div class="bg-emerald-600 text-white p-3 pt-9 flex justify-between items-center shadow-md">
+          <button onclick="closeApp()" class="text-xs flex items-center gap-1"><i class="fa-solid fa-chevron-left"></i> หน้าหลัก</button>
+          <span class="font-semibold text-sm">LINE Chat</span>
+          <i class="fa-solid fa-user-plus text-xs"></i>
+        </div>
+        <div id="line-chat-box" class="flex-1 p-3 bg-slate-100 overflow-y-auto space-y-3 custom-scrollbar">
+          <div class="text-center text-[10px] text-gray-400 my-1">วันนี้ 11:30 น.</div>
+          <div class="flex gap-2">
+            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">B</div>
+            <div class="bg-white p-2.5 rounded-2xl rounded-tl-none shadow-sm text-xs text-gray-800 max-w-[70%]">
+              สวัสดีครับ! ยินดีต้อนรับสู่ iPhone 16 Simulator!
+            </div>
+          </div>
+        </div>
+        <div class="p-2 bg-white border-t flex gap-2 items-center mb-5">
+          <input id="line-input" type="text" placeholder="พิมพ์ข้อความ..." class="flex-1 bg-gray-100 border border-gray-300 rounded-full px-3 py-1.5 text-xs outline-none">
+          <button onclick="sendLineMessage()" class="text-emerald-600 font-semibold text-xs px-2">ส่ง</button>
+        </div>
+      </div>
+
+      <!-- 2. CAMERA APP -->
+      <div id="app-camera" class="app-modal bg-black text-white">
+        <div class="relative flex-1 bg-gray-900 flex items-center justify-center overflow-hidden">
+          <video id="camera-feed" autoplay playsinline class="w-full h-full object-cover hidden"></video>
+          <div id="camera-fallback" class="text-center p-6 text-gray-400">
+            <i class="fa-solid fa-camera text-4xl mb-2"></i>
+            <p class="text-xs">กำลังเปิดใช้งานกล้อง...</p>
+          </div>
+          <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-150"></div>
+        </div>
+        <div class="h-28 bg-black flex justify-around items-center px-6 mb-4">
+          <div class="w-10 h-10 rounded-md bg-gray-800 border border-gray-600 overflow-hidden" id="photo-preview-thumbnail"></div>
+          <button onclick="takeSnap()" class="w-16 h-16 rounded-full border-4 border-white bg-white/20 flex items-center justify-center active:scale-95 transition-transform">
+            <div class="w-12 h-12 rounded-full bg-white"></div>
+          </button>
+          <button onclick="toggleCamera()" class="text-white text-xl"><i class="fa-solid fa-rotate"></i></button>
+        </div>
+      </div>
+
+      <!-- 3. NOTES APP -->
+      <div id="app-notes" class="app-modal bg-amber-50">
+        <div class="bg-amber-100 p-3 pt-9 border-b border-amber-200 flex justify-between items-center text-amber-900">
+          <button onclick="closeApp()" class="text-xs font-medium"><i class="fa-solid fa-chevron-left"></i> หน้าหลัก</button>
+          <span class="font-bold text-sm">โน้ตทั้งหมด</span>
+          <button onclick="addNewNote()" class="text-amber-800"><i class="fa-solid fa-pen-to-square"></i></button>
+        </div>
+        <div id="notes-list" class="flex-1 p-3 overflow-y-auto space-y-2 custom-scrollbar mb-4"></div>
+      </div>
+
+      <!-- 4. PHONE APP (โทร) -->
+      <div id="app-phone" class="app-modal bg-white">
+        <div class="pt-10 px-4 text-center">
+          <div id="phone-display" class="text-3xl font-light h-10 text-gray-800 tracking-wider"></div>
+        </div>
+        <div class="flex-1 grid grid-cols-3 gap-4 px-8 py-4 text-center items-center">
+          <button onclick="pressKey('1')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">1</button>
+          <button onclick="pressKey('2')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">2</button>
+          <button onclick="pressKey('3')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">3</button>
+          <button onclick="pressKey('4')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">4</button>
+          <button onclick="pressKey('5')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">5</button>
+          <button onclick="pressKey('6')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">6</button>
+          <button onclick="pressKey('7')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">7</button>
+          <button onclick="pressKey('8')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">8</button>
+          <button onclick="pressKey('9')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">9</button>
+          <button onclick="pressKey('*')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">*</button>
+          <button onclick="pressKey('0')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">0</button>
+          <button onclick="pressKey('#')" class="w-16 h-16 rounded-full bg-gray-100 mx-auto text-xl font-medium active:bg-gray-300">#</button>
+        </div>
+        <div class="flex justify-center pb-8">
+          <button onclick="makeCall()" class="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-md active:bg-emerald-600">
+            <i class="fa-solid fa-phone"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. MESSAGES APP (ข้อความ) -->
+      <div id="app-messages" class="app-modal">
+        <div class="bg-gray-100 p-3 pt-9 border-b flex justify-between items-center text-gray-800">
+          <button onclick="closeApp()" class="text-xs text-blue-600"><i class="fa-solid fa-chevron-left"></i> หน้าหลัก</button>
+          <span class="font-bold text-sm">ข้อความ</span>
+          <i class="fa-solid fa-pen-to-square text-blue-600 text-sm"></i>
+        </div>
+        <div id="msg-chat-box" class="flex-1 p-3 bg-white overflow-y-auto space-y-2 custom-scrollbar">
+          <div class="flex gap-2">
+            <div class="bg-gray-200 text-gray-800 text-xs p-2.5 rounded-2xl max-w-[75%]">
+              ระบบส่งข้อความอัตโนมัติ ยินดีต้อนรับสู่ iOS 18 Messages!
+            </div>
+          </div>
+        </div>
+        <div class="p-2 border-t flex gap-2 mb-5">
+          <input id="msg-input" type="text" placeholder="iMessage" class="flex-1 border rounded-full px-3 py-1 text-xs outline-none">
+          <button onclick="sendSms()" class="bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-semibold">ส่ง</button>
+        </div>
+      </div>
+
+      <!-- 6. INSTAGRAM APP -->
+      <div id="app-instagram" class="app-modal bg-white">
+        <div class="pt-9 px-3 pb-2 border-b flex justify-between items-center">
+          <span class="font-bold text-lg font-serif">Instagram</span>
+          <div class="flex gap-3 text-lg"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-paper-plane"></i></div>
+        </div>
+        <div class="flex-1 overflow-y-auto custom-scrollbar mb-4">
+          <div class="flex gap-3 p-3 border-b overflow-x-auto">
+            <div class="text-center flex-shrink-0"><div class="w-12 h-12 rounded-full border-2 border-pink-500 p-0.5"><img src="https://picsum.photos/100/100?random=1" class="rounded-full w-full h-full object-cover"></div><span class="text-[9px]">Your Story</span></div>
+            <div class="text-center flex-shrink-0"><div class="w-12 h-12 rounded-full border-2 border-pink-500 p-0.5"><img src="https://picsum.photos/100/100?random=2" class="rounded-full w-full h-full object-cover"></div><span class="text-[9px]">alex_dev</span></div>
+            <div class="text-center flex-shrink-0"><div class="w-12 h-12 rounded-full border-2 border-pink-500 p-0.5"><img src="https://picsum.photos/100/100?random=3" class="rounded-full w-full h-full object-cover"></div><span class="text-[9px]">sarah.m</span></div>
+          </div>
+          <div class="border-b pb-3">
+            <div class="flex items-center gap-2 p-2"><img src="https://picsum.photos/100/100?random=2" class="w-7 h-7 rounded-full"><span class="text-xs font-semibold">alex_dev</span></div>
+            <img src="https://picsum.photos/375/250?random=10" class="w-full h-56 object-cover">
+            <div class="p-2 space-y-1">
+              <div class="flex gap-3 text-base"><i class="fa-regular fa-heart cursor-pointer hover:text-red-500" onclick="this.classList.toggle('fa-solid'); this.classList.toggle('text-red-500')"></i><i class="fa-regular fa-comment"></i></div>
+              <p class="text-xs font-semibold">ถูกใจ 2,450 คน</p>
+              <p class="text-xs"><span class="font-semibold">alex_dev</span> iPhone 16 Pro + iOS 18 Simulator!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. SPOTIFY APP -->
+      <div id="app-spotify" class="app-modal bg-slate-900 text-white">
+        <div class="pt-9 px-4 flex justify-between items-center"><i class="fa-solid fa-chevron-down text-sm" onclick="closeApp()"></i><span class="text-xs tracking-widest uppercase text-gray-400">เล่นจากเพลย์ลิสต์</span><i class="fa-solid fa-ellipsis-vertical"></i></div>
+        <div class="flex-1 flex flex-col items-center justify-center p-6 text-center mb-4">
+          <img src="https://picsum.photos/250/250?random=20" class="w-48 h-48 rounded-2xl shadow-2xl mb-6">
+          <h3 class="font-bold text-base">iOS 18 Modern Beats</h3>
+          <p class="text-xs text-gray-400 mt-1">Spotify Music Player</p>
+          <div class="w-full bg-gray-700 h-1 rounded-full mt-6 mb-2"><div class="bg-emerald-500 w-1/3 h-full rounded-full"></div></div>
+          <div class="flex justify-between w-full text-[10px] text-gray-400"><span>1:24</span><span>3:45</span></div>
+          <div class="flex items-center justify-between w-full mt-6 px-4">
+            <i class="fa-solid fa-shuffle text-gray-400 text-sm"></i>
+            <i class="fa-solid fa-backward-step text-xl"></i>
+            <button onclick="toggleMusic(this)" class="w-12 h-12 bg-emerald-500 text-black rounded-full flex items-center justify-center text-lg shadow-lg"><i class="fa-solid fa-play"></i></button>
+            <i class="fa-solid fa-forward-step text-xl"></i>
+            <i class="fa-solid fa-repeat text-gray-400 text-sm"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. PHOTOS APP -->
+      <div id="app-photos" class="app-modal bg-white">
+        <div class="pt-9 px-3 pb-2 border-b flex justify-between items-center"><span class="font-bold text-base">รูปภาพ</span><span class="text-xs text-blue-500">เลือก</span></div>
+        <div class="flex-1 grid grid-cols-3 gap-0.5 p-0.5 overflow-y-auto custom-scrollbar mb-4">
+          <img src="https://picsum.photos/150/150?random=31" class="w-full h-28 object-cover">
+          <img src="https://picsum.photos/150/150?random=32" class="w-full h-28 object-cover">
+          <img src="https://picsum.photos/150/150?random=33" class="w-full h-28 object-cover">
+          <img src="https://picsum.photos/150/150?random=34" class="w-full h-28 object-cover">
+          <img src="https://picsum.photos/150/150?random=35" class="w-full h-28 object-cover">
+          <img src="https://picsum.photos/150/150?random=36" class="w-full h-28 object-cover">
+        </div>
+      </div>
+
+      <!-- 9. YOUTUBE APP -->
+      <div id="app-youtube" class="app-modal bg-white">
+        <div class="pt-9 px-3 pb-2 border-b flex justify-between items-center"><i class="fa-brands fa-youtube text-red-600 text-2xl"></i><div class="bg-gray-100 rounded-full px-3 py-1 text-xs w-2/3 flex items-center gap-2"><i class="fa-solid fa-magnifying-glass text-gray-400"></i>ค้นหา YouTube</div></div>
+        <div class="flex-1 overflow-y-auto custom-scrollbar mb-4">
+          <div class="p-2 border-b">
+            <iframe class="w-full h-44 rounded-md" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+            <h4 class="font-semibold text-xs mt-2">iPhone 16 Pro Reveal Trailer</h4>
+            <p class="text-[10px] text-gray-500 mt-0.5">Apple • วิว 25M ครั้ง</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. CLOCK APP -->
+      <div id="app-clock" class="app-modal bg-black text-white">
+        <div class="pt-9 text-center border-b border-gray-800 pb-2"><span class="font-semibold text-sm">นาฬิกาปลุก / จับเวลา</span></div>
+        <div class="flex-1 flex flex-col items-center justify-center p-4 mb-4">
+          <div id="stopwatch-display" class="text-5xl font-extralight tracking-tight my-6">00:00.00</div>
+          <div class="flex gap-6">
+            <button onclick="startStopwatch()" class="w-16 h-16 rounded-full bg-emerald-900 text-emerald-400 border border-emerald-500 flex items-center justify-center text-xs font-semibold">เริ่ม</button>
+            <button onclick="resetStopwatch()" class="w-16 h-16 rounded-full bg-gray-800 text-gray-300 border border-gray-600 flex items-center justify-center text-xs font-semibold">รีเซ็ต</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. MAPS APP -->
+      <div id="app-maps" class="app-modal bg-white">
+        <div class="pt-9 px-2 pb-2 bg-gray-100 flex items-center gap-2 border-b">
+          <input type="text" placeholder="ค้นหาสถานที่..." class="flex-1 bg-white border border-gray-300 rounded-lg px-3 py-1 text-xs outline-none">
+        </div>
+        <div id="leaflet-map" class="flex-1 mb-4"></div>
+      </div>
+
+      <!-- 12. FACETIME APP -->
+      <div id="app-facetime" class="app-modal bg-slate-900 text-white">
+        <div class="pt-9 px-4 flex justify-between items-center"><span class="text-xs font-semibold">FaceTime</span><i class="fa-solid fa-plus text-xs"></i></div>
+        <div class="flex-1 flex flex-col items-center justify-center p-4 mb-4">
+          <div class="w-20 h-20 rounded-full bg-emerald-600 flex items-center justify-center text-3xl mb-4"><i class="fa-solid fa-user"></i></div>
+          <p class="text-base font-semibold">คุณกำลังโทรสายวิดีโอ</p>
+          <div class="flex gap-6 mt-8">
+            <button onclick="alert('กำลังเริ่มสาย...')" class="w-14 h-14 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xl shadow-lg"><i class="fa-solid fa-video"></i></button>
+            <button onclick="closeApp()" class="w-14 h-14 rounded-full bg-red-600 text-white flex items-center justify-center text-xl shadow-lg"><i class="fa-solid fa-phone-slash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13. CONTACTS APP -->
+      <div id="app-contacts" class="app-modal bg-white">
+        <div class="pt-9 px-3 pb-2 border-b flex justify-between items-center"><span class="font-bold text-base">รายชื่อผู้ติดต่อ</span><i class="fa-solid fa-plus text-blue-500"></i></div>
+        <div class="flex-1 overflow-y-auto divide-y custom-scrollbar mb-4">
+          <div class="p-3 text-xs font-semibold text-gray-800 flex justify-between items-center"><span>สมชาย ใจดี</span><i class="fa-solid fa-phone text-emerald-500"></i></div>
+          <div class="p-3 text-xs font-semibold text-gray-800 flex justify-between items-center"><span>คุณแม่</span><i class="fa-solid fa-phone text-emerald-500"></i></div>
+          <div class="p-3 text-xs font-semibold text-gray-800 flex justify-between items-center"><span>LINE Official</span><i class="fa-solid fa-phone text-emerald-500"></i></div>
+        </div>
+      </div>
+
+      <!-- 14. CALCULATOR APP -->
+      <div id="app-calculator" class="app-modal bg-black text-white">
+        <div class="pt-12 px-4 text-right flex-1 flex items-end justify-end">
+          <div id="calc-display" class="text-5xl font-light text-white mb-2 overflow-x-auto">0</div>
+        </div>
+        <div class="grid grid-cols-4 gap-2 p-3 text-xl font-medium mb-4">
+          <button onclick="calcClear()" class="h-14 bg-gray-400 text-black rounded-full active:bg-gray-200">C</button>
+          <button onclick="calcInput('/')" class="h-14 bg-orange-500 text-white rounded-full active:bg-orange-400">÷</button>
+          <button onclick="calcInput('*')" class="h-14 bg-orange-500 text-white rounded-full active:bg-orange-400">×</button>
+          <button onclick="calcInput('-')" class="h-14 bg-orange-500 text-white rounded-full active:bg-orange-400">-</button>
+
+          <button onclick="calcInput('7')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">7</button>
+          <button onclick="calcInput('8')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">8</button>
+          <button onclick="calcInput('9')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">9</button>
+          <button onclick="calcInput('+')" class="h-14 bg-orange-500 text-white rounded-full active:bg-orange-400">+</button>
+
+          <button onclick="calcInput('4')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">4</button>
+          <button onclick="calcInput('5')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">5</button>
+          <button onclick="calcInput('6')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">6</button>
+          <button onclick="calcEqual()" class="h-14 row-span-2 bg-orange-500 text-white rounded-full flex items-center justify-center active:bg-orange-400">=</button>
+
+          <button onclick="calcInput('1')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">1</button>
+          <button onclick="calcInput('2')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">2</button>
+          <button onclick="calcInput('3')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">3</button>
+
+          <button onclick="calcInput('0')" class="h-14 col-span-2 bg-gray-800 rounded-full active:bg-gray-700 pl-6 text-left">0</button>
+          <button onclick="calcInput('.')" class="h-14 bg-gray-800 rounded-full active:bg-gray-700">.</button>
+        </div>
+      </div>
+
+      <!-- 15. SAFARI APP -->
+      <div id="app-safari" class="app-modal bg-white">
+        <div class="pt-9 px-2 pb-2 bg-gray-100 flex items-center gap-2 border-b">
+          <input id="safari-url" type="text" value="https://www.apple.com" class="flex-1 bg-gray-200 rounded-md px-3 py-1 text-xs outline-none text-center">
+        </div>
+        <div class="flex-1 bg-slate-50 flex flex-col items-center justify-center p-6 text-center mb-4">
+          <i class="fa-regular fa-compass text-5xl text-blue-500 mb-3"></i>
+          <h3 class="font-bold text-sm">Safari Web Browser</h3>
+          <p class="text-xs text-gray-500 mt-1">iOS 18 Web Experience</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Audio Synth Context
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playBeep(freq = 440, duration = 0.08) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playUnlockSound() {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        playBeep(523.25, 0.1);
+        setTimeout(() => playBeep(659.25, 0.15), 80);
+      } catch (e) {}
+    }
+
+    // Dynamic Island State & Controls
+    let islandExpanded = false;
+    function triggerDynamicIsland(text) {
+      const island = document.getElementById('dynamic-island');
+      const content = document.getElementById('island-content');
+      content.innerHTML = `<span>${text}</span>`;
+      content.classList.remove('hidden');
+      island.classList.add('expanded');
+      setTimeout(() => {
+        island.classList.remove('expanded');
+        setTimeout(() => content.classList.add('hidden'), 350);
+      }, 2500);
+    }
+
+    function toggleIslandExpand() {
+      const island = document.getElementById('dynamic-island');
+      island.classList.toggle('expanded');
+    }
+
+    // Real Time Status Bar & Clock
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const timeStr = `${hours}:${minutes}`;
+
+      document.getElementById('status-time').textContent = timeStr;
+      document.getElementById('lock-clock-text').textContent = timeStr;
+
+      const days = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+      const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+      
+      const dayName = days[now.getDay()];
+      const dateNum = now.getDate();
+      const monthName = months[now.getMonth()];
+      
+      document.getElementById('lock-date-text').textContent = `วัน${dayName}ที่ ${dateNum} ${monthName}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Lock Screen & Passcode Logic (Key: 1109)
+    let isLocked = true;
+    let passcodeVisible = false;
+    let currentPasscode = '';
+    const CORRECT_PASSCODE = '1109';
+
+    // Tap on Lock Screen to Open Passcode Pad
+    document.getElementById('lock-screen').addEventListener('click', (e) => {
+      // Prevent trigger if clicking on bottom flashlight/camera shortcuts
+      if (!e.target.closest('button')) {
+        showPasscodeScreen();
+      }
+    });
+
+    function showPasscodeScreen() {
+      if (!isLocked) return;
+      passcodeVisible = true;
+      const passScreen = document.getElementById('passcode-screen');
+      passScreen.classList.remove('opacity-0', 'pointer-events-none');
+      passScreen.classList.add('opacity-100', 'pointer-events-auto');
+    }
+
+    function cancelPasscode() {
+      passcodeVisible = false;
+      resetPasscodeDots();
+      const passScreen = document.getElementById('passcode-screen');
+      passScreen.classList.add('opacity-0', 'pointer-events-none');
+      passScreen.classList.remove('opacity-100', 'pointer-events-auto');
+    }
+
+    function pressPassKey(digit) {
+      if (currentPasscode.length < 4) {
+        playBeep(450, 0.05);
+        currentPasscode += digit;
+        updatePasscodeDots();
+
+        if (currentPasscode.length === 4) {
+          setTimeout(verifyPasscode, 150);
         }
+      }
+    }
 
-        // ฟังก์ชันลบตัวเลข
-        function deleteKey() {
-            if (enteredPasscode.length > 0) {
-                enteredPasscode = enteredPasscode.slice(0, -1);
-                updatePasscodeDots();
-            }
+    function updatePasscodeDots() {
+      const dotsContainer = document.getElementById('passcode-dots');
+      const dots = dotsContainer.children;
+      for (let i = 0; i < 4; i++) {
+        if (i < currentPasscode.length) {
+          dots[i].className = "w-3.5 h-3.5 rounded-full bg-white border border-white";
+        } else {
+          dots[i].className = "w-3.5 h-3.5 rounded-full border border-white/60";
         }
+      }
+    }
 
-        // ฟังก์ชันจุดวงกลมรหัสผ่าน
-        function updatePasscodeDots() {
-            for (let i = 0; i < 4; i++) {
-                const dot = document.getElementById(dot${i});
-                if (dot) {
-                    if (i < enteredPasscode.length) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
-                }
-            }
+    function resetPasscodeDots() {
+      currentPasscode = '';
+      updatePasscodeDots();
+    }
+
+    function verifyPasscode() {
+      if (currentPasscode === CORRECT_PASSCODE) {
+        playUnlockSound();
+        triggerDynamicIsland('Unlocked');
+        unlockPhone();
+      } else {
+        playBeep(180, 0.25);
+        const dotsContainer = document.getElementById('passcode-dots');
+        const title = document.getElementById('passcode-title');
+        
+        dotsContainer.classList.add('shake');
+        title.textContent = "รหัสผ่านไม่ถูกต้อง";
+        title.classList.add('text-red-400');
+
+        setTimeout(() => {
+          dotsContainer.classList.remove('shake');
+          resetPasscodeDots();
+        }, 400);
+
+        setTimeout(() => {
+          title.textContent = "ป้อนรหัสผ่าน";
+          title.classList.remove('text-red-400');
+        }, 2000);
+      }
+    }
+
+    function unlockPhone() {
+      isLocked = false;
+      cancelPasscode();
+      const lockScreen = document.getElementById('lock-screen');
+      lockScreen.style.transform = 'translateY(-100%)';
+    }
+
+    function lockPhone() {
+      isLocked = true;
+      closeApp();
+      resetPasscodeDots();
+      const lockScreen = document.getElementById('lock-screen');
+      lockScreen.style.transform = 'translateY(0)';
+    }
+
+    function togglePowerLock() {
+      if (!isLocked) {
+        lockPhone();
+      } else {
+        if (passcodeVisible) {
+          cancelPasscode();
+        } else {
+          showPasscodeScreen();
         }
+      }
+    }
 
-        // ฟังก์ชันระบบ เปิด-ปิด แอปในหน้าจอหลัก
-        function openApp(appId) { document.getElementById(appId).classList.add('active'); }
-        function closeApp(appId) { document.getElementById(appId).classList.remove('active'); }
+    function toggleTorch(btn) {
+      btn.classList.toggle('text-amber-300');
+      triggerDynamicIsland('Flashlight Toggle');
+    }
 
-        // ระบบอัปเดตเวลาจริงอ้างอิงจากมือถือไอโฟน 16
-        function updateClock() {
-            const now = new Date();
-            const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('lockTime').innerText = timeStr;
-            document.getElementById('statusTime').innerText = timeStr;
-            
-            const days = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
-            const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-            document.getElementById('lockDate').innerText = ${days[now.getDay()]}ที่ ${now.getDate()} ${months[now.getMonth()]};
+    // Navigation App Control
+    function openApp(appId) {
+      if (isLocked) return;
+      const appModal = document.getElementById(appId);
+      if (appModal) {
+        appModal.classList.add('active');
+        if (appId === 'app-camera') startCamera();
+        if (appId === 'app-maps') initMap();
+      }
+    }
 
-            if(document.getElementById('appClock')) {
-                document.getElementById('appClock').innerText = timeStr + ':' + String(now.getSeconds()).padStart(2, '0');
-            }
-        }
-        setInterval(updateClock, 1000); updateClock();
+    function closeApp() {
+      document.querySelectorAll('.app-modal').forEach(app => {
+        app.classList.remove('active');
+      });
+      stopCamera();
+    }
 
-        // ระบบโต้ตอบแอป LINE
-        function sendLineMessage() {
-            const input = document.getElementById('lineInput'); const chatBox = document.getElementById('lineChatBox');
-            if (!input.value.trim()) return;
-            const msg = document.createElement('div'); msg.className = 'msg user'; msg.innerText = input.value;
-            chatBox.appendChild(msg); const text = input.value; input.value = ''; chatBox.scrollTop = chatBox.scrollHeight;
-            setTimeout(() => {
-                const reply = document.createElement('div'); reply.className = 'msg bot';
-                if(text.includes('สวัสดี')) reply.innerText = 'สวัสดีค่า ยินดีที่ได้คุยกันนะคะ! 💚';
-                else reply.innerText = 'รับทราบข้อความจ้า! มีอะไรให้ช่วยอีกไหมคะ? ✨';
-                chatBox.appendChild(reply); chatBox.scrollTop = chatBox.scrollHeight;
-            }, 1000);
-        }
+    // Camera App Functionality
+    let videoStream = null;
+    async function startCamera() {
+      try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const videoElement = document.getElementById('camera-feed');
+        videoElement.srcObject = videoStream;
+        videoElement.classList.remove('hidden');
+        document.getElementById('camera-fallback').classList.add('hidden');
+      } catch (err) {
+        console.log('Camera error:', err);
+      }
+    }
 
-        // ระบบแอปเครื่องคิดเลข
-        let calcVal = '';
-        function pressCalc(num) { calcVal += num; document.getElementById('calcScreen').innerText = calcVal; }
-        function clearCalc() { calcVal = ''; document.getElementById('calcScreen').innerText = '0'; }
-        function calculateResult() {
-            try {
-                let res = eval(calcVal);
-                document.getElementById('calcScreen').innerText = res; calcVal = String(res);
-            } catch {
-                document.getElementById('calcScreen').innerText = 'Error'; calcVal = '';
-            }
-        }
-    </script>
+    function stopCamera() {
+      if (videoStream) {
+        videoStream.getTracks().forEach(track => track.stop());
+        videoStream = null;
+      }
+    }
+
+    function takeSnap() {
+      playBeep(800, 0.05);
+      const flash = document.getElementById('camera-flash');
+      flash.style.opacity = '1';
+      setTimeout(() => flash.style.opacity = '0', 150);
+    }
+
+    // LINE App Logic
+    function sendLineMessage() {
+      const input = document.getElementById('line-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById('line-chat-box');
+      const userMsg = document.createElement('div');
+      userMsg.className = 'flex justify-end';
+      userMsg.innerHTML = `<div class="bg-emerald-500 text-white p-2.5 rounded-2xl rounded-tr-none shadow-sm text-xs max-w-[70%]">${text}</div>`;
+      chatBox.appendChild(userMsg);
+
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Messages SMS Logic
+    function sendSms() {
+      const input = document.getElementById('msg-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chatBox = document.getElementById('msg-chat-box');
+      const userMsg = document.createElement('div');
+      userMsg.className = 'flex justify-end';
+      userMsg.innerHTML = `<div class="bg-blue-500 text-white text-xs p-2.5 rounded-2xl max-w-[75%]">${text}</div>`;
+      chatBox.appendChild(userMsg);
+
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Calculator Logic
+    let calcVal = '0';
+    function calcInput(char) {
+      if (calcVal === '0' && char !== '.') {
+        calcVal = char;
+      } else {
+        calcVal += char;
+      }
+      document.getElementById('calc-display').textContent = calcVal;
+    }
+    function calcClear() {
+      calcVal = '0';
+      document.getElementById('calc-display').textContent = calcVal;
+    }
+    function calcEqual() {
+      try {
+        calcVal = String(eval(calcVal));
+        document.getElementById('calc-display').textContent = calcVal;
+      } catch {
+        document.getElementById('calc-display').textContent = 'Error';
+        calcVal = '0';
+      }
+    }
+
+    // Phone Keypad Logic
+    function pressKey(num) {
+      playBeep(350, 0.05);
+      const display = document.getElementById('phone-display');
+      display.textContent += num;
+    }
+    function makeCall() {
+      const num = document.getElementById('phone-display').textContent;
+      if (num) alert(`กำลังโทรออกไปยัง ${num}...`);
+    }
+
+    // Leaflet Maps Initialization
+    let mapInitialized = false;
+    function initMap() {
+      if (mapInitialized) return;
+      setTimeout(() => {
+        const map = L.map('leaflet-map').setView([13.7563, 100.5018], 12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19
+        }).addTo(map);
+        L.marker([13.7563, 100.5018]).addTo(map).bindPopup('กรุงเทพมหานคร').openPopup();
+        mapInitialized = true;
+      }, 200);
+    }
+
+    // Notes App
+    function loadNotes() {
+      const notes = JSON.parse(localStorage.getItem('ios18_notes') || '["ยินดีต้อนรับสู่ iPhone 16 Pro", "รหัสผ่านปลดล็อก: 1109"]');
+      const list = document.getElementById('notes-list');
+      list.innerHTML = '';
+      notes.forEach((note, index) => {
+        const div = document.createElement('div');
+        div.className = 'bg-white p-3 rounded-xl border border-amber-200 text-xs text-gray-800 shadow-sm flex justify-between items-center';
+        div.innerHTML = `<span>${note}</span><i class="fa-solid fa-trash text-red-400 cursor-pointer" onclick="deleteNote(${index})"></i>`;
+        list.appendChild(div);
+      });
+    }
+
+    function addNewNote() {
+      const text = prompt('กรอกข้อความโน้ตใหม่:');
+      if (text) {
+        const notes = JSON.parse(localStorage.getItem('ios18_notes') || '[]');
+        notes.push(text);
+        localStorage.setItem('ios18_notes', JSON.stringify(notes));
+        loadNotes();
+      }
+    }
+
+    function deleteNote(index) {
+      const notes = JSON.parse(localStorage.getItem('ios18_notes') || '[]');
+      notes.splice(index, 1);
+      localStorage.setItem('ios18_notes', JSON.stringify(notes));
+      loadNotes();
+    }
+    loadNotes();
+
+    // Stopwatch Timer
+    let timer = null;
+    let seconds = 0;
+    function startStopwatch() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      } else {
+        timer = setInterval(() => {
+          seconds++;
+          const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+          const secs = String(seconds % 60).padStart(2, '0');
+          document.getElementById('stopwatch-display').textContent = `${mins}:${secs}.00`;
+        }, 1000);
+      }
+    }
+    function resetStopwatch() {
+      clearInterval(timer);
+      timer = null;
+      seconds = 0;
+      document.getElementById('stopwatch-display').textContent = '00:00.00';
+    }
+
+    // Spotify Controls
+    function toggleMusic(btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-play')) {
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+        triggerDynamicIsland('Spotify Playing');
+      } else {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }
+    }
+  </script>
+</body>
+</html>
