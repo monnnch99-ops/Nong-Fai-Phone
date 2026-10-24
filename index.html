@@ -16,7 +16,7 @@
     }
 
     body {
-      background: #0d0f12;
+      background: #090a0f;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -25,14 +25,14 @@
       color: #fff;
     }
 
-    /* iPhone 16 Frame */
+    /* iPhone 16 Outer Frame */
     .iphone-frame {
       width: 393px;
       height: 852px;
       background: #000;
       border-radius: 54px;
       position: relative;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 12px #2d2e32, 0 0 0 14px #1a1a1c;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 12px #222327, 0 0 0 14px #141518;
       overflow: hidden;
     }
 
@@ -41,9 +41,9 @@
       width: 100%;
       height: 100%;
       position: relative;
+      background-image: url('https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024');
       background-size: cover;
       background-position: center;
-      transition: background 0.3s ease;
     }
 
     /* Status Bar */
@@ -60,6 +60,8 @@
       z-index: 100;
       font-size: 14px;
       font-weight: 600;
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     }
 
     .status-left {
@@ -70,7 +72,7 @@
       display: flex;
       gap: 6px;
       align-items: center;
-      width: 60px;
+      width: 70px;
       justify-content: flex-end;
     }
 
@@ -90,13 +92,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 0 12px;
-      cursor: pointer;
-    }
-
-    .dynamic-island.expanded {
-      width: 350px;
-      height: 80px;
-      border-radius: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     /* Screens */
@@ -114,35 +110,34 @@
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 80px 0 50px;
+      padding: 75px 0 45px;
       z-index: 10;
+      background-image: url('https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024');
       background-size: cover;
       background-position: center;
     }
 
-    .lock-clock {
-      text-align: center;
-    }
-
     .lock-time {
-      font-size: 80px;
+      font-size: 82px;
       font-weight: 700;
       letter-spacing: -2px;
       line-height: 1;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
     }
 
     .lock-date {
       font-size: 18px;
       font-weight: 500;
-      margin-top: 5px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      margin-top: 6px;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
     }
 
     .unlock-prompt {
       font-size: 14px;
-      opacity: 0.8;
+      opacity: 0.85;
       animation: pulse 2s infinite;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
     }
 
     @keyframes pulse {
@@ -152,9 +147,9 @@
 
     /* Passcode Screen */
     .passcode-screen {
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
       z-index: 20;
       display: flex;
       flex-direction: column;
@@ -174,17 +169,18 @@
     .passcode-title {
       font-size: 18px;
       margin-bottom: 20px;
+      font-weight: 500;
     }
 
     .passcode-dots {
       display: flex;
-      gap: 15px;
+      gap: 16px;
       margin-bottom: 40px;
     }
 
     .dot {
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       border: 2px solid #fff;
       border-radius: 50%;
       transition: background 0.2s;
@@ -204,7 +200,7 @@
       width: 75px;
       height: 75px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.22);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -213,6 +209,7 @@
       font-weight: 500;
       cursor: pointer;
       backdrop-filter: blur(10px);
+      transition: background 0.15s;
     }
 
     .key:active {
@@ -228,13 +225,14 @@
     /* Home Screen */
     .home-screen {
       z-index: 5;
-      padding: 70px 20px 30px;
+      padding: 70px 22px 30px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       opacity: 0;
-      transform: scale(0.9);
+      transform: scale(0.92);
       pointer-events: none;
+      background-image: url('https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024');
       background-size: cover;
       background-position: center;
     }
@@ -262,23 +260,468 @@
     .app-icon {
       width: 62px;
       height: 62px;
-      border-radius: 14px;
+      border-radius: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
       color: #fff;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .app-name {
       font-size: 11px;
       font-weight: 500;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
     }
 
-    /* Dock */
+    /* Dock Bar */
     .dock-container {
-      background: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.28);
       backdrop-filter: blur(30px);
-      -webkit-backdrop-filter
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 32px;
+      padding: 12px 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    /* App Views */
+    .app-view {
+      background: #000;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.2s;
+    }
+
+    .app-view.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .app-header {
+      height: 90px;
+      padding-top: 40px;
+      padding-x: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #222;
+      background: #111;
+      padding: 40px 20px 0;
+    }
+
+    .app-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .app-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 135px;
+      height: 5px;
+      background: #fff;
+      border-radius: 3px;
+      z-index: 200;
+      cursor: pointer;
+    }
+
+    /* App Specific Styling */
+    .calc-btn {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      border: none;
+      font-size: 24px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Shake Animation for Wrong Passcode */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-12px); }
+      40%, 80% { transform: translateX(12px); }
+    }
+    .shake {
+      animation: shake 0.4s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="iphone-frame">
+    <div class="screen" id="screen">
+      
+      <!-- Status Bar -->
+      <div class="status-bar">
+        <div class="status-left" id="statusTime">12:00</div>
+        <div class="status-right">
+          <i class="fa-solid fa-signal"></i>
+          <i class="fa-solid fa-wifi"></i>
+          <i class="fa-solid fa-battery-full"></i>
+        </div>
+      </div>
+
+      <!-- Dynamic Island -->
+      <div class="dynamic-island" id="dynamicIsland"></div>
+
+      <!-- Lock Screen -->
+      <div class="lock-screen" id="lockScreen" onclick="showPasscode()">
+        <div class="lock-clock">
+          <div class="lock-date" id="lockDate">วันอาทิตย์ที่ 25 ตุลาคม</div>
+          <div class="lock-time" id="lockTime">12:00</div>
+        </div>
+        <div class="unlock-prompt">
+          <i class="fa-solid fa-lock" style="margin-right: 5px;"></i> เลื่อนขึ้นเพื่อปลดล็อก
+        </div>
+      </div>
+
+      <!-- Passcode Screen -->
+      <div class="passcode-screen" id="passcodeScreen">
+        <div class="passcode-title">ป้อนรหัสรหัสผ่าน</div>
+        <div class="passcode-dots" id="passcodeDots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <div class="keypad">
+          <div class="key" onclick="pressKey('1')">1</div>
+          <div class="key" onclick="pressKey('2')">2<span>ABC</span></div>
+          <div class="key" onclick="pressKey('3')">3<span>DEF</span></div>
+          <div class="key" onclick="pressKey('4')">4<span>GHI</span></div>
+          <div class="key" onclick="pressKey('5')">5<span>JKL</span></div>
+          <div class="key" onclick="pressKey('6')">6<span>MNO</span></div>
+          <div class="key" onclick="pressKey('7')">7<span>PQRS</span></div>
+          <div class="key" onclick="pressKey('8')">8<span>TUV</span></div>
+          <div class="key" onclick="pressKey('9')">9<span>WXYZ</span></div>
+          <div class="key" style="visibility: hidden;"></div>
+          <div class="key" onclick="pressKey('0')">0</div>
+          <div class="key" style="font-size: 16px;" onclick="deleteKey()">ยกเลิก</div>
+        </div>
+      </div>
+
+      <!-- Home Screen -->
+      <div class="home-screen" id="homeScreen">
+        <!-- Main Apps Grid -->
+        <div class="app-grid">
+          <!-- Instagram -->
+          <div class="app-item" onclick="openApp('instagramApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kLO7z1U4W1aG7B_4uK32G9u4hH2T2G5d0T7W-a=s256" alt="Instagram"></div>
+            <div class="app-name">Instagram</div>
+          </div>
+          <!-- YouTube -->
+          <div class="app-item" onclick="openApp('youtubeApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP9f89XvR_mN0R24x0Q8M3P-M6A3K_J6G-a8S8=s256" alt="YouTube"></div>
+            <div class="app-name">YouTube</div>
+          </div>
+          <!-- รายชื่อ -->
+          <div class="app-item" onclick="openApp('contactsApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP09N_bBv15tI_0zZ-F8U7d-M3J5C4G8R7C4m4=s256" alt="รายชื่อ"></div>
+            <div class="app-name">รายชื่อ</div>
+          </div>
+          <!-- รูปภาพ -->
+          <div class="app-item" onclick="openApp('photosApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kMlR78R_8x7P1P3N1X2x8m4W9E6M7K0R1P2T3Q=s256" alt="รูปภาพ"></div>
+            <div class="app-name">รูปภาพ</div>
+          </div>
+          <!-- ไลน์ -->
+          <div class="app-item" onclick="openApp('lineApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP_G_M8C8n6V61E3G9d0A4x3X2Y7R_K_2N_R_A=s256" alt="ไลน์"></div>
+            <div class="app-name">ไลน์</div>
+          </div>
+          <!-- โน้ต -->
+          <div class="app-item" onclick="openApp('notesApp')">
+            <div class="app-icon" style="background: #eab308;"><i class="fa-solid fa-note-sticky"></i></div>
+            <div class="app-name">โน้ต</div>
+          </div>
+          <!-- Spotify -->
+          <div class="app-item" onclick="openApp('spotifyApp')">
+            <div class="app-icon" style="background: #121212; color: #1db954;"><i class="fa-brands fa-spotify"></i></div>
+            <div class="app-name">Spotify</div>
+          </div>
+          <!-- นาฬิกา -->
+          <div class="app-item" onclick="openApp('clockApp')">
+            <div class="app-icon" style="background: #000;"><i class="fa-regular fa-clock"></i></div>
+            <div class="app-name">นาฬิกา</div>
+          </div>
+          <!-- แผนที่ -->
+          <div class="app-item" onclick="openApp('mapsApp')">
+            <div class="app-icon" style="background: #10b981;"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="app-name">แผนที่</div>
+          </div>
+          <!-- FaceTime -->
+          <div class="app-item" onclick="openApp('facetimeApp')">
+            <div class="app-icon" style="background: #22c55e;"><i class="fa-solid fa-video"></i></div>
+            <div class="app-name">FaceTime</div>
+          </div>
+          <!-- เครื่องคิดเลข -->
+          <div class="app-item" onclick="openApp('calcApp')">
+            <div class="app-icon" style="background: #333;"><i class="fa-solid fa-calculator"></i></div>
+            <div class="app-name">เครื่องคิดเลข</div>
+          </div>
+        </div>
+
+        <!-- Dock Bar (เรียง โทร, Safari, ข้อความ, กล้อง) -->
+        <div class="dock-container">
+          <div class="app-item" onclick="openApp('phoneApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kI_x8y4M91K1T3p_F6C_x1K_M7M3C5E_S_P4m8=s256" alt="โทร"></div>
+          </div>
+          <div class="app-item" onclick="openApp('safariApp')">
+            <div class="app-icon" style="background: #fff; color: #007aff;"><i class="fa-compass fa-regular" style="font-size: 38px;"></i></div>
+          </div>
+          <div class="app-item" onclick="openApp('messagesApp')">
+            <div class="app-icon" style="background: #22c55e;"><i class="fa-solid fa-comment"></i></div>
+          </div>
+          <div class="app-item" onclick="openApp('cameraApp')">
+            <div class="app-icon"><img src="https://lh3.googleusercontent.com/gg/AEmR8kP-x_9S_C9B4x2K1V_8X_1C_1M4Q_5P_9R_4M8=s256" alt="กล้อง"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Windows -->
+
+      <!-- โทร (Phone) -->
+      <div class="app-view" id="phoneApp">
+        <div class="app-header"><h2>โทรศัพท์</h2></div>
+        <div class="app-content" style="text-align: center;">
+          <h1 id="dialDisplay" style="font-size: 32px; margin: 20px 0; height: 40px;"></h1>
+          <div class="keypad" style="margin: 0 auto;">
+            <div class="key" onclick="dial('1')">1</div>
+            <div class="key" onclick="dial('2')">2</div>
+            <div class="key" onclick="dial('3')">3</div>
+            <div class="key" onclick="dial('4')">4</div>
+            <div class="key" onclick="dial('5')">5</div>
+            <div class="key" onclick="dial('6')">6</div>
+            <div class="key" onclick="dial('7')">7</div>
+            <div class="key" onclick="dial('8')">8</div>
+            <div class="key" onclick="dial('9')">9</div>
+            <div class="key" onclick="dial('*')">*</div>
+            <div class="key" onclick="dial('0')">0</div>
+            <div class="key" onclick="dial('#')">#</div>
+          </div>
+          <button style="margin-top: 25px; width: 65px; height: 65px; border-radius: 50%; background: #22c55e; border: none; color: #fff; font-size: 24px;" onclick="alert('กำลังโทรออก...')">
+            <i class="fa-solid fa-phone"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Safari -->
+      <div class="app-view" id="safariApp">
+        <div class="app-header"><h2>Safari</h2></div>
+        <div class="app-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+          <i class="fa-compass fa-regular" style="font-size: 64px; color: #007aff; margin-bottom: 20px;"></i>
+          <h3>ยินดีต้อนรับสู่ Safari</h3>
+          <p style="color: #888; font-size: 14px; margin-top: 8px;">เบราว์เซอร์สำหรับ iOS 18</p>
+        </div>
+      </div>
+
+      <!-- ข้อความ (Messages) -->
+      <div class="app-view" id="messagesApp">
+        <div class="app-header"><h2>ข้อความ</h2></div>
+        <div class="app-content">
+          <div style="padding: 15px; background: #1c1c1e; border-radius: 12px; margin-bottom: 10px;">
+            <strong>Apple Security</strong>
+            <p style="color: #aaa; font-size: 13px; margin-top: 4px;">รหัสการยืนยันของคุณคือ 1109</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- กล้อง (Camera) -->
+      <div class="app-view" id="cameraApp">
+        <div class="app-header"><h2>กล้องถ่ายรูป</h2></div>
+        <div class="app-content" style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; background: #000; padding-bottom: 30px;">
+          <div style="width: 100%; height: 380px; background: #222; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #666;">
+            <i class="fa-solid fa-camera" style="font-size: 48px;"></i>
+          </div>
+          <button style="width: 70px; height: 70px; border-radius: 50%; border: 4px solid #fff; background: transparent;" onclick="alert('ถ่ายภาพแล้ว!')"></button>
+        </div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="app-view" id="instagramApp">
+        <div class="app-header"><h2>Instagram</h2></div>
+        <div class="app-content" style="display: flex; flex-direction: column; align-items: center; padding-top: 40px;">
+          <img src="https://lh3.googleusercontent.com/gg/AEmR8kLO7z1U4W1aG7B_4uK32G9u4hH2T2G5d0T7W-a=s256" style="width: 80px; height: 80px; border-radius: 20px; margin-bottom: 15px;">
+          <h3>Instagram Feed</h3>
+          <p style="color: #888; font-size: 13px; margin-top: 5px;">เชื่อมต่อบัญชีของคุณแล้ว</p>
+        </div>
+      </div>
+
+      <!-- YouTube -->
+      <div class="app-view" id="youtubeApp">
+        <div class="app-header"><h2>YouTube</h2></div>
+        <div class="app-content">
+          <div style="width: 100%; height: 180px; background: #222; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+            <i class="fa-brands fa-youtube" style="font-size: 50px; color: red;"></i>
+          </div>
+          <h4>วิดีโอแนะนำสำหรับคุณ</h4>
+        </div>
+      </div>
+
+      <!-- รายชื่อ (Contacts) -->
+      <div class="app-view" id="contactsApp">
+        <div class="app-header"><h2>รายชื่อ</h2></div>
+        <div class="app-content">
+          <div style="padding: 12px 0; border-bottom: 1px solid #222;">คุณ (My Card)</div>
+          <div style="padding: 12px 0; border-bottom: 1px solid #222;">เพื่อนสนิท</div>
+          <div style="padding: 12px 0; border-bottom: 1px solid #222;">ครอบครัว</div>
+        </div>
+      </div>
+
+      <!-- รูปภาพ (Photos) -->
+      <div class="app-view" id="photosApp">
+        <div class="app-header"><h2>รูปภาพ</h2></div>
+        <div class="app-content">
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
+            <img src="https://lh3.googleusercontent.com/gg/AEmR8kL98Oq02i9_w8R_z_Lh-u-lP646U6vR-A6u_xL34x8gT9h_4A81X-Nl847eM8=s1024" style="width: 100%; height: 100px; object-fit: cover; border-radius: 6px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- ไลน์ (LINE) -->
+      <div class="app-view" id="lineApp">
+        <div class="app-header" style="background: #06c755;"><h2>LINE</h2></div>
+        <div class="app-content">
+          <div style="padding: 15px; border-bottom: 1px solid #222; display: flex; gap: 12px; align-items: center;">
+            <div style="width: 45px; height: 45px; border-radius: 50%; background: #06c755; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-user"></i></div>
+            <div>
+              <strong>แชทครอบครัว</strong>
+              <p style="color: #888; font-size: 12px;">สวัสดีครับ!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- โน้ต (Notes) -->
+      <div class="app-view" id="notesApp">
+        <div class="app-header"><h2>โน้ต</h2></div>
+        <div class="app-content">
+          <textarea style="width: 100%; height: 80%; background: transparent; border: none; color: #fff; font-size: 16px; outline: none;" placeholder="พิมพ์โน้ตที่นี่..."></textarea>
+        </div>
+      </div>
+
+      <!-- Spotify -->
+      <div class="app-view" id="spotifyApp">
+        <div class="app-header"><h2>Spotify</h2></div>
+        <div class="app-content" style="text-align: center; padding-top: 40px;">
+          <i class="fa-brands fa-spotify" style="font-size: 80px; color: #1db954; margin-bottom: 20px;"></i>
+          <h3>กำลังเล่นเพลง</h3>
+        </div>
+      </div>
+
+      <!-- นาฬิกา (Clock) -->
+      <div class="app-view" id="clockApp">
+        <div class="app-header"><h2>นาฬิกา</h2></div>
+        <div class="app-content" style="text-align: center; padding-top: 50px;">
+          <h1 style="font-size: 56px;" id="clockAppTime">12:00</h1>
+        </div>
+      </div>
+
+      <!-- แผนที่ (Maps) -->
+      <div class="app-view" id="mapsApp">
+        <div class="app-header"><h2>แผนที่</h2></div>
+        <div class="app-content" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+          <p style="color: #888;">กรุงเทพมหานคร, ประเทศไทย</p>
+        </div>
+      </div>
+
+      <!-- FaceTime -->
+      <div class="app-view" id="facetimeApp">
+        <div class="app-header"><h2>FaceTime</h2></div>
+        <div class="app-content" style="text-align: center; padding-top: 40px;">
+          <i class="fa-solid fa-video" style="font-size: 60px; color: #22c55e; margin-bottom: 20px;"></i>
+          <h3>FaceTime วิดีโอ</h3>
+        </div>
+      </div>
+
+      <!-- เครื่องคิดเลข (Calculator) -->
+      <div class="app-view" id="calcApp">
+        <div class="app-header"><h2>เครื่องคิดเลข</h2></div>
+        <div class="app-content" style="display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 20px;">
+          <h1 id="calcDisplay" style="font-size: 48px; text-align: right; margin-bottom: 20px; padding-right: 10px;">0</h1>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; justify-items: center;">
+            <button class="calc-btn" style="background: #a5a5a5; color: #000;" onclick="calcClear()">C</button>
+            <button class="calc-btn" style="background: #a5a5a5; color: #000;">+/-</button>
+            <button class="calc-btn" style="background: #a5a5a5; color: #000;">%</button>
+            <button class="calc-btn" style="background: #fe9e09;">÷</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('7')">7</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('8')">8</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('9')">9</button>
+            <button class="calc-btn" style="background: #fe9e09;">×</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('4')">4</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('5')">5</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('6')">6</button>
+            <button class="calc-btn" style="background: #fe9e09;">-</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('1')">1</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('2')">2</button>
+            <button class="calc-btn" style="background: #333;" onclick="calcInput('3')">3</button>
+            <button class="calc-btn" style="background: #fe9e09;">+</button>
+            <button class="calc-btn" style="background: #333; width: 140px; border-radius: 35px; grid-column: span 2;" onclick="calcInput('0')">0</button>
+            <button class="calc-btn" style="background: #333;">.</button>
+            <button class="calc-btn" style="background: #fe9e09;">=</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Home Indicator -->
+      <div class="home-indicator" onclick="goHome()"></div>
+
+    </div>
+  </div>
+
+  <script>
+    let passcode = "";
+    const correctPasscode = "1109";
+
+    // Update Clock
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const timeStr = `${hours}:${minutes}`;
+      
+      document.getElementById('statusTime').innerText = timeStr;
+      document.getElementById('lockTime').innerText = timeStr;
+      if (document.getElementById('clockAppTime')) {
+        document.getElementById('clockAppTime').innerText = timeStr;
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Lock & Passcode Logic
+    function showPasscode() {
+      document.getElementById('passcodeScreen').classList.add('active');
+    }
+
+    function pressKey(key) {
+      if
