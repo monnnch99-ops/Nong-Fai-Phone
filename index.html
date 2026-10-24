@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 16 Passcode 100% Fixed</title>
+    <title>iPhone 16 Ultimate Simulator - 100% Fixed</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
         body { background-color: #1e272e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -25,7 +25,7 @@
             z-index: 2000;
         }
 
-        /* 📶 แถบสถานะด้านบน */
+        /* 📶 แถบสถานะด้านบน (Status Bar) */
         .status-bar {
             position: absolute; top: 0; left: 0; right: 0; height: 40px;
             padding: 13px 24px 0 24px; display: flex; justify-content: space-between;
@@ -33,40 +33,39 @@
         }
         .status-right { display: flex; align-items: center; gap: 6px; }
 
-        /* 🔒 เลเยอร์หน้าจอล็อก (รูปพื้นหลังเต็มจอล็อก) */
-        .lock-screen-bg {
+        /* 🔒 หน้าจอล็อก (Lock Screen) */
+        .lock-screen {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3)), url('https://unsplash.com') center/cover;
-            z-index: 999;
-            transition: transform 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
-            display: flex; flex-direction: column; align-items: center; padding-top: 60px; color: white;
+            background: url('https://unsplash.com') center/cover;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            color: white; z-index: 1000; transition: transform 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+            padding-top: 60px;
         }
-        /* เมื่อสั่งปลดล็อค ให้เลเยอร์จอล็อกทั้งหมดสไลด์เลื่อนขึ้นหายไป */
-        .phone.is-unlocked .lock-screen-bg { transform: translateY(-100%); }
-
+        .lock-screen.unlocked { transform: translateY(-100%); pointer-events: none; }
+        
+        .lock-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .lock-date { font-size: 19px; margin-bottom: 30px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .lock-date { font-size: 19px; margin-bottom: 30px; font-weight: 400; opacity: 0.95; }
         
-        /* โซนปุ่มกดและจุดแสดงรหัส (ครอบคลุม z-index สูงสุดเพื่อให้กดติดแน่นอน) */
-        .passcode-ui-container { display: flex; flex-direction: column; align-items: center; width: 100%; z-index: 1005; }
-        .passcode-label { font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; text-align: center; }
+        .passcode-container { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .passcode-label { font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
         
-        .dots-container { display: flex; gap: 15px; margin-bottom: 30px; justify-content: center; }
+        .dots-container { display: flex; gap: 15px; margin-bottom: 30px; }
         .dot { width: 12px; height: 12px; border: 1.5px solid white; border-radius: 50%; transition: 0.1s; }
         .dot.active { background: white; }
         
-        /* แผงแป้นพิมพ์ตัวเลข */
+        /* ⌨️ แผงปุ่มกดป้อนรหัสแบบปุ่มจริง (Button) */
         .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; }
-        .key {
-            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2);
-            display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 400;
-            cursor: pointer; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);
-            color: white; -webkit-tap-highlight-color: transparent;
+        .key-btn {
+            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.18);
+            color: white; border: 1px solid rgba(255,255,255,0.1); font-size: 24px; font-weight: 400;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; outline: none;
+            backdrop-filter: blur(8px); -webkit-tap-highlight-color: transparent; transition: background 0.1s;
         }
-        .key:active { background: rgba(255,255,255,0.45); }
-        .key-action { font-size: 14px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+        .key-btn:active { background: rgba(255,255,255,0.45); }
+        .key-action-btn { font-size: 14px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; outline: none; }
 
-        /* 🏠 ส่วนหน้าจอหลักด้านในโทรศัพท์ */
+        /* 🏠 หน้าจอหลัก (Home Screen) */
         .main-screen-container { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 15px 15px 15px; }
         .apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow-y: auto; padding-bottom: 10px; }
         .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 11px; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
@@ -74,17 +73,16 @@
         
         .bottom-dock {
             background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px);
-            border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-bottom: 5px;
+            border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px;
         }
 
-        /* หน้าต่างแอปพลิเคชัน */
-        .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s cubic-bezier(0.1, 0.76, 0.55, 0.94); display: flex; flex-direction: column; padding-top: 40px; }
+        /* 🪟 หน้าต่างในแอป */
+        .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s ease-out; display: flex; flex-direction: column; padding-top: 40px; }
         .app-window.active { top: 0; }
         .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 16px; color: #333; }
         .back-btn { border: none; background: none; font-size: 20px; margin-right: 12px; cursor: pointer; color: #007aff; }
 
-        /* แชท LINE */
+        /* ระบบในแอปพลิเคชัน */
         .chat-box { flex: 1; padding: 15px; overflow-y: auto; background: #abc1d1; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 9px 13px; border-radius: 16px; max-width: 75%; font-size: 14px; }
         .msg.bot { background: white; align-self: flex-start; }
@@ -92,77 +90,69 @@
         .chat-input { padding: 10px; display: flex; gap: 8px; background: white; border-top: 1px solid #ddd; }
         .chat-input input { flex: 1; padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
         .chat-input button { border: none; background: #fee500; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+
+        .calc-screen { background: #000; color: white; text-align: right; padding: 20px; font-size: 40px; font-family: monospace; }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 15px; background: #000; flex: 1; }
+        .calc-btn { background: #333; color: white; border: none; font-size: 22px; border-radius: 50%; height: 60px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .calc-btn.orange { background: #ff9f0a; }
+        .calc-btn.gray { background: #a5a5a5; color: black; }
+
+        .notes-area { flex: 1; padding: 15px; border: none; outline: none; font-size: 16px; resize: none; background: #fffdf3; }
+        .weather-body { flex: 1; background: linear-gradient(to bottom, #5ac8fa, #5085a5); color: white; padding: 30px; text-align: center; }
+        .map-body { flex: 1; background: #e5e3df url('https://icons8.com') center/no-repeat; background-size: 100px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="phone" id="phoneBody">
-        <!-- แถบสถานะด้านบน -->
+    <div class="phone">
+        <!-- Status Bar -->
         <div class="status-bar">
             <span id="statusTime">12:00</span>
             <div class="status-right"><span>📶</span><span>5G</span><span>🔋</span></div>
         </div>
 
-        <!-- Dynamic Island -->
         <div class="dynamic-island"></div>
 
-        <!-- 🔒 ส่วนเลเยอร์หน้าจอล็อกตัวควบคุมหลัก -->
-        <div class="lock-screen-bg" id="lockScreenLayer">
-            <div class="lock-time" id="lockTime">12:00</div>
-            <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
-            
-            <!-- ย้ายส่วนโครงสร้างปุ่มกดมาไว้ในจุดตรวจสัมผัสที่ปลอดภัยที่สุด -->
-            <div class="passcode-ui-container">
-                <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน</div>
-                <div class="dots-container">
-                    <div class="dot" id="dot0"></div>
-                    <div class="dot" id="dot1"></div>
-                    <div class="dot" id="dot2"></div>
-                    <div class="dot" id="dot3"></div>
-                </div>
+        <!-- 🔒 หน้าจอล็อก (ระบบปุ่มกดแก้ไขสมบูรณ์แล้ว) -->
+        <div class="lock-screen" id="lockScreen">
+            <div class="lock-content">
+                <div class="lock-time" id="lockTime">12:00</div>
+                <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
                 
-                <div class="keypad">
-                    <div class="key" onclick="pressKey('1')">1</div>
-                    <div class="key" onclick="pressKey('2')">2</div>
-                    <div class="key" onclick="pressKey('3')">3</div>
-                    <div class="key" onclick="pressKey('4')">4</div>
-                    <div class="key" onclick="pressKey('5')">5</div>
-                    <div class="key" onclick="pressKey('6')">6</div>
-                    <div class="key" onclick="pressKey('7')">7</div>
-                    <div class="key" onclick="pressKey('8')">8</div>
-                    <div class="key" onclick="pressKey('9')">9</div>
-                    <button class="key-action" disabled></button>
-                    <div class="key" onclick="pressKey('0')">0</div>
-                    <button class="key-action" onclick="deleteKey()">ลบ</button>
+                <div class="passcode-container">
+                    <div class="passcode-label" id="passcodeLabel">ป้อนรหัสผ่านเพื่อเปิดใช้งาน</div>
+                    <div class="dots-container">
+                        <div class="dot" id="dot0"></div>
+                        <div class="dot" id="dot1"></div>
+                        <div class="dot" id="dot2"></div>
+                        <div class="dot" id="dot3"></div>
+                    </div>
+                    
+                    <div class="keypad">
+                        <button class="key-btn" onclick="pressKey('1')">1</button>
+                        <button class="key-btn" onclick="pressKey('2')">2</button>
+                        <button class="key-btn" onclick="pressKey('3')">3</button>
+                        <button class="key-btn" onclick="pressKey('4')">4</button>
+                        <button class="key-btn" onclick="pressKey('5')">5</button>
+                        <button class="key-btn" onclick="pressKey('6')">6</button>
+                        <button class="key-btn" onclick="pressKey('7')">7</button>
+                        <button class="key-btn" onclick="pressKey('8')">8</button>
+                        <button class="key-btn" onclick="pressKey('9')">9</button>
+                        <button class="key-action-btn" disabled></button>
+                        <button class="key-btn" onclick="pressKey('0')">0</button>
+                        <button class="key-action-btn" onclick="deleteKey()">ลบ</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🏠 หน้าจอหลักด้านในเครื่อง -->
+        <!-- 🏠 หน้าจอหลัก -->
         <div class="main-screen-container">
             <div class="apps-grid">
                 <div class="app-icon" onclick="openApp('lineApp')">
                     <img src="https://icons8.com"><span>LINE</span>
                 </div>
-                <div class="app-icon" onclick="openApp('youtubeApp')">
-                    <img src="https://icons8.com"><span>YouTube</span>
-                </div>
-                <div class="app-icon" onclick="alert('สภาพอากาศ: 32° ท้องฟ้าแจ่มใส')">
+                <div class="app-icon" onclick="openApp('weatherApp')">
                     <img src="https://icons8.com"><span>สภาพอากาศ</span>
                 </div>
-                <div class="app-icon" onclick="alert('แผนที่ GPS พร้อมนำทางแล้ว')">
-                    <img src="https://icons8.com"><span>แผนที่</span>
-                </div>
-            </div>
-
-            <div class="bottom-dock">
-                <div class="app-icon" onclick="alert('ฟังก์ชั่นโทรศัพท์เปิดทำงาน')">
-                    <img src="https://icons8.com"><span>โทร</span>
-                </div>
-                <div class="app-icon" onclick="alert('ยินดีต้อนรับสู่ Safari Browser')">
-                    <img src="https://icons8.com"><span>Safari</span>
-                </div>
-                <div class="app-icon" onclick="openApp('messageApp')">
-                    <img src="https://icons8.com"><span>ข้อความ</span>
-                </div>
-                <div class="app-icon" onclick="alert('ระบบกล้องถ่ายรูปพร้อมใช้งาน')">
+                <div class="app-icon" onclick="openApp('mapApp')">
