@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone 16 Ultimate Simulator - 100% Fixed</title>
+    <title>iPhone 16 Ultimate Simulator - Bug Fixed</title>
     <style>
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; user-select: none; }
         body { background-color: #1e272e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -25,7 +25,7 @@
             z-index: 2000;
         }
 
-        /* 📶 แถบสถานะด้านบน (Status Bar) */
+        /* 📶 แถบสถานะด้านบน */
         .status-bar {
             position: absolute; top: 0; left: 0; right: 0; height: 40px;
             padding: 13px 24px 0 24px; display: flex; justify-content: space-between;
@@ -41,6 +41,8 @@
             color: white; z-index: 1000; transition: transform 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
             padding-top: 60px;
         }
+        
+        /* สั่งสไลด์หน้าจอขึ้นด้านบนเมื่อคลาสสิกตัวสะกดถูกต้องทำงาน */
         .lock-screen.unlocked { transform: translateY(-100%); pointer-events: none; }
         
         .lock-content { display: flex; flex-direction: column; align-items: center; width: 100%; }
@@ -54,7 +56,6 @@
         .dot { width: 12px; height: 12px; border: 1.5px solid white; border-radius: 50%; transition: 0.1s; }
         .dot.active { background: white; }
         
-        /* ⌨️ แผงปุ่มกดป้อนรหัสแบบปุ่มจริง (Button) */
         .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; }
         .key-btn {
             width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.18);
@@ -65,7 +66,7 @@
         .key-btn:active { background: rgba(255,255,255,0.45); }
         .key-action-btn { font-size: 14px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; outline: none; }
 
-        /* 🏠 หน้าจอหลัก (Home Screen) */
+        /* 🏠 หน้าจอหลัก */
         .main-screen-container { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 15px 15px 15px; }
         .apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow-y: auto; padding-bottom: 10px; }
         .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 11px; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
@@ -76,13 +77,11 @@
             border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px;
         }
 
-        /* 🪟 หน้าต่างในแอป */
         .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s ease-out; display: flex; flex-direction: column; padding-top: 40px; }
         .app-window.active { top: 0; }
         .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 16px; color: #333; }
         .back-btn { border: none; background: none; font-size: 20px; margin-right: 12px; cursor: pointer; color: #007aff; }
 
-        /* ระบบในแอปพลิเคชัน */
         .chat-box { flex: 1; padding: 15px; overflow-y: auto; background: #abc1d1; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 9px 13px; border-radius: 16px; max-width: 75%; font-size: 14px; }
         .msg.bot { background: white; align-self: flex-start; }
@@ -105,7 +104,6 @@
 <body>
 
     <div class="phone">
-        <!-- Status Bar -->
         <div class="status-bar">
             <span id="statusTime">12:00</span>
             <div class="status-right"><span>📶</span><span>5G</span><span>🔋</span></div>
@@ -113,7 +111,7 @@
 
         <div class="dynamic-island"></div>
 
-        <!-- 🔒 หน้าจอล็อก (ระบบปุ่มกดแก้ไขสมบูรณ์แล้ว) -->
+        <!-- 🔒 หน้าจอล็อก -->
         <div class="lock-screen" id="lockScreen">
             <div class="lock-content">
                 <div class="lock-time" id="lockTime">12:00</div>
@@ -156,3 +154,5 @@
                     <img src="https://icons8.com"><span>สภาพอากาศ</span>
                 </div>
                 <div class="app-icon" onclick="openApp('mapApp')">
+                    <img src="https://icons8.com"><span>แผนที่</span>
+                </div>
