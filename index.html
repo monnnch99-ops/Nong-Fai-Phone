@@ -41,7 +41,7 @@
       width: 100%;
       height: 100%;
       position: relative;
-      background-image:('f10ff1ddaabd15e00687344eece8f745.jpg');
+      background-image: url('https://ibb.co/BKBfMGLS');
       background-size: cover;
       background-position: center;
     }
@@ -112,7 +112,7 @@
       justify-content: space-between;
       padding: 75px 0 45px;
       z-index: 10;
-      background-image:('f10ff1ddaabd15e00687344eece8f745.jpg');
+      background-image: url('https://ibb.co/BKBfMGLS');
       background-size: cover;
       background-position: center;
     }
@@ -724,4 +724,83 @@
     }
 
     function pressKey(key) {
-      if
+      if (passcode.length < 4) {
+        passcode += key;
+        updateDots();
+        if (passcode.length === 4) {
+          setTimeout(checkPasscode, 200);
+        }
+      }
+    }
+
+    function deleteKey() {
+      if (passcode.length > 0) {
+        passcode = passcode.slice(0, -1);
+        updateDots();
+      } else {
+        document.getElementById('passcodeScreen').classList.remove('active');
+      }
+    }
+
+    function updateDots() {
+      const dots = document.querySelectorAll('#passcodeDots .dot');
+      dots.forEach((dot, index) => {
+        if (index < passcode.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
+    }
+
+    function checkPasscode() {
+      if (passcode === correctPasscode) {
+        document.getElementById('passcodeScreen').classList.remove('active');
+        document.getElementById('lockScreen').style.transform = 'translateY(-100%)';
+        document.getElementById('homeScreen').classList.add('active');
+        passcode = "";
+        updateDots();
+      } else {
+        const screen = document.getElementById('passcodeScreen');
+        screen.classList.add('shake');
+        setTimeout(() => {
+          screen.classList.remove('shake');
+          passcode = "";
+          updateDots();
+        }, 400);
+      }
+    }
+
+    // App Navigation
+    function openApp(appId) {
+      document.getElementById(appId).classList.add('active');
+    }
+
+    function goHome() {
+      const activeApps = document.querySelectorAll('.app-view.active');
+      if (activeApps.length > 0) {
+        activeApps.forEach(app => app.classList.remove('active'));
+      }
+    }
+
+    // Phone App Dialer
+    let dialNum = "";
+    function dial(num) {
+      dialNum += num;
+      document.getElementById('dialDisplay').innerText = dialNum;
+    }
+
+    // Calculator Logic
+    let calcVal = "0";
+    function calcInput(num) {
+      if (calcVal === "0") calcVal = num;
+      else calcVal += num;
+      document.getElementById('calcDisplay').innerText = calcVal;
+    }
+    function calcClear() {
+      calcVal = "0";
+      document.getElementById('calcDisplay').innerText = calcVal;
+    }
+  </script>
+</body>
+</html>
