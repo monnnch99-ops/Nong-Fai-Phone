@@ -22,41 +22,31 @@
         .dynamic-island {
             position: absolute; top: 11px; left: 50%; transform: translateX(-50%);
             width: 110px; height: 25px; background: black; border-radius: 20px;
-            z-index: 2000; pointer-events: none; /* 🛠️ แก้บั๊กไม่ให้บังการกด */
+            z-index: 2000;
         }
 
-        /* แถบสถานะด้านบน (Status Bar) */
+        /* แถบสถานะด้านบน */
         .status-bar {
             position: absolute; top: 0; left: 0; right: 0; height: 40px;
             padding: 13px 24px 0 24px; display: flex; justify-content: space-between;
-            align-items: center; color: white; font-size: 12px; font-weight: 600; 
-            z-index: 1500; pointer-events: none; /* 🛠️ แก้บั๊กไม่ให้บังการกด */
+            align-items: center; color: white; font-size: 12px; font-weight: 600; z-index: 1500;
         }
-        .status-right { display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px; }
+        .status-right { display: flex; align-items: center; gap: 6px; }
 
-        /* หน้าจอล็อค */
+        /* หน้าจอล็อค (ปรับโครงสร้างความปลอดภัยให้ปุ่มอยู่บนสุด) */
         .lock-screen {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: url('https://unsplash.com') center/cover;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://unsplash.com') center/cover;
             display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-            color: white; z-index: 3000; /* 🛠️ ดันหน้าจอล็อคมาไว้หน้าสุด */
-            transition: transform 0.6s cubic-bezier(0.1, 0.76, 0.55, 0.94);
+            color: white; z-index: 1000; transition: 0.5s ease-in-out;
             padding-top: 60px;
         }
         
-        .lock-screen-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.25); transition: 0.3s; z-index: 1;
-        }
-        .lock-screen.typing .lock-screen-overlay {
-            background: rgba(0,0,0,0.45); backdrop-filter: blur(15px);
-        }
-        
-        .lock-content { position: relative; z-index: 5; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .lock-content { display: flex; flex-direction: column; align-items: center; width: 100%; z-index: 1001; }
         .lock-time { font-size: 72px; font-weight: 200; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .lock-date { font-size: 19px; margin-bottom: 30px; font-weight: 400; opacity: 0.95; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .lock-date { font-size: 19px; margin-bottom: 30px; opacity: 0.95; }
         
-        /* หน้าจอแป้นพิมพ์พิมพ์รหัส Passcode */
+        /* หน้าจอแป้นพิมพ์ */
         .passcode-container { display: flex; flex-direction: column; align-items: center; width: 100%; }
         .passcode-label { font-size: 14px; margin-bottom: 15px; letter-spacing: 0.5px; }
         
@@ -64,54 +54,46 @@
         .dot { width: 12px; height: 12px; border: 1.5px solid white; border-radius: 50%; transition: 0.1s; }
         .dot.active { background: white; }
         
-        /* แผงปุ่มกดตัวเลข */
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; }
+        /* แผงปุ่มกดตัวเลข ปรับแก้ z-index ให้กดได้แน่นอน */
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 25px; justify-items: center; width: 260px; position: relative; z-index: 1005; }
         .key {
-            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.15);
+            width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.2);
             display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: 400;
-            cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(5px);
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+            -webkit-tap-highlight-color: transparent;
         }
-        .key:active { background: rgba(255,255,255,0.4); }
+        .key:active { background: rgba(255,255,255,0.5); }
         .key-action { font-size: 13px; background: none; border: none; color: white; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+
+        /* ปุ่มปลดล็อคฉุกเฉินกรณีปุ่มตัวเลขค้าง */
+        .emergency-unlock { font-size: 11px; margin-top: 15px; opacity: 0.4; text-decoration: underline; cursor: pointer; }
 
         /* หน้าจอหลัก (Home Screen) */
         .main-screen-container { flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 50px 15px 15px 15px; }
-        .apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow-y: auto; padding-bottom: 10px; }
+        .apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow-y: auto; }
+        
         .bottom-dock {
             background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(20px);
-            border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); margin-bottom: 5px;
+            border-radius: 26px; padding: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 5px;
         }
 
-        .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 11px; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
-        .app-icon img { width: 55px; height: 55px; border-radius: 13px; margin-bottom: 5px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); background: white; object-fit: cover; }
+        .app-icon { display: flex; flex-direction: column; align-items: center; color: white; font-size: 11px; cursor: pointer; }
+        .app-icon img { width: 55px; height: 55px; border-radius: 13px; margin-bottom: 5px; background: white; object-fit: cover; }
 
-        /* หน้าต่างแอปภายใน */
-        .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s cubic-bezier(0.1, 0.76, 0.55, 0.94); display: flex; flex-direction: column; padding-top: 40px; }
+        /* หน้าต่างแอปย่อย */
+        .app-window { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; background: white; z-index: 900; transition: 0.3s ease-out; display: flex; flex-direction: column; padding-top: 40px; }
         .app-window.active { top: 0; }
-        .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; font-size: 16px; color: #333; }
+        .app-header { background: #f8f9fa; padding: 12px 15px; display: flex; align-items: center; border-bottom: 1px solid #e0e0e0; font-weight: bold; }
         .back-btn { border: none; background: none; font-size: 20px; margin-right: 12px; cursor: pointer; color: #007aff; }
 
-        /* แอปย่อย */
+        /* ระบบแชท */
         .chat-box { flex: 1; padding: 15px; overflow-y: auto; background: #abc1d1; display: flex; flex-direction: column; gap: 10px; }
         .msg { padding: 9px 13px; border-radius: 16px; max-width: 75%; font-size: 14px; }
         .msg.bot { background: white; align-self: flex-start; }
         .msg.user { background: #fee500; align-self: flex-end; }
-        .chat-input { padding: 10px; display: flex; gap: 8px; background: white; border-top: 1px solid #ddd; }
+        .chat-input { padding: 10px; display: flex; gap: 8px; background: white; }
         .chat-input input { flex: 1; padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
         .chat-input button { border: none; background: #fee500; padding: 0 15px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-
-        /* เครื่องคิดเลข */
-        .calc-screen { background: #000; color: white; text-align: right; padding: 20px; font-size: 40px; font-family: monospace; }
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 15px; background: #000; flex: 1; }
-        .calc-btn { background: #333; color: white; border: none; font-size: 22px; border-radius: 50%; height: 60px; cursor: pointer; display: flex; justify-content: center; align-items: center; }
-        .calc-btn.orange { background: #ff9f0a; }
-        .calc-btn.gray { background: #a5a5a5; color: black; }
-
-        /* โน้ต */
-        .notes-area { flex: 1; padding: 15px; border: none; outline: none; font-size: 16px; resize: none; background: #fffdf3; }
-        .weather-body { flex: 1; background: linear-gradient(to bottom, #5ac8fa, #5085a5); color: white; padding: 30px; text-align: center; }
-        .map-body { flex: 1; background: #e5e3df url('https://icons8.com') center/no-repeat; background-size: 100px; display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; }
     </style>
 </head>
 <body>
@@ -120,20 +102,14 @@
         <!-- แถบสถานะด้านบน -->
         <div class="status-bar">
             <span id="statusTime">12:00</span>
-            <div class="status-right">
-                <span>📶</span>
-                <span>5G</span>
-                <span>🔋</span>
-            </div>
+            <div class="status-right"><span>📶</span><span>5G</span><span>🔋</span></div>
         </div>
 
         <!-- Dynamic Island -->
         <div class="dynamic-island"></div>
 
-        <!-- หน้าจอล็อค (Lock Screen) -->
+        <!-- หน้าจอล็อค (Lock Screen) ปรับโครงสร้างใหม่ให้กดติดชัวร์ -->
         <div class="lock-screen" id="lockScreen">
-            <div class="lock-screen-overlay"></div>
-            
             <div class="lock-content">
                 <div class="lock-time" id="lockTime">12:00</div>
                 <div class="lock-date" id="lockDate">วันเสาร์ที่ 24 ตุลาคม</div>
@@ -148,21 +124,121 @@
                     </div>
                     
                     <div class="keypad">
-                        <div class="key" onclick="pressKey(1)">1</div>
-                        <div class="key" onclick="pressKey(2)">2</div>
-                        <div class="key" onclick="pressKey(3)">3</div>
-                        <div class="key" onclick="pressKey(4)">4</div>
-                        <div class="key" onclick="pressKey(5)">5</div>
-                        <div class="key" onclick="pressKey(6)">6</div>
-                        <div class="key" onclick="pressKey(7)">7</div>
-                        <div class="key" onclick="pressKey(😎">8</div>
-                        <div class="key" onclick="pressKey(9)">9</div>
+                        <div class="key" onclick="pressKey('1')">1</div>
+                        <div class="key" onclick="pressKey('2')">2</div>
+                        <div class="key" onclick="pressKey('3')">3</div>
+                        <div class="key" onclick="pressKey('4')">4</div>
+                        <div class="key" onclick="pressKey('5')">5</div>
+                        <div class="key" onclick="pressKey('6')">6</div>
+                        <div class="key" onclick="pressKey('7')">7</div>
+                        <div class="key" onclick="pressKey('8')">8</div>
+                        <div class="key" onclick="pressKey('9')">9</div>
                         <button class="key-action" disabled></button>
-                        <div class="key" onclick="pressKey(0)">0</div>
+                        <div class="key" onclick="pressKey('0')">0</div>
                         <button class="key-action" onclick="deleteKey()">ลบ</button>
                     </div>
+
+                    <!-- ปุ่มลับสำหรับเข้าเครื่องทันทีถ้ากดเลขไม่ติด -->
+                    <div class="emergency-unlock" onclick="bypassUnlock()">ทางลัดปลดล็อคฉุกเฉิน</div>
                 </div>
             </div>
         </div>
 
-        <!-- หน้าจอหลักด้านใน -->
+        <!-- หน้าจอหลัก -->
+        <div class="main-screen-container">
+            <div class="apps-grid">
+                <div class="app-icon" onclick="openApp('lineApp')">
+                    <img src="https://icons8.com"><span>LINE</span>
+                </div>
+                <div class="app-icon" onclick="openApp('youtubeApp')">
+                    <img src="https://icons8.com"><span>YouTube</span>
+                </div>
+                <div class="app-icon" onclick="alert('สภาพอากาศวันนี้: 32° ท้องฟ้าแจ่มใส')">
+                    <img src="https://icons8.com"><span>สภาพอากาศ</span>
+                </div>
+                <div class="app-icon" onclick="alert('ระบบแผนที่นำทาง GPS พร้อมทำงาน')">
+                    <img src="https://icons8.com"><span>แผนที่</span>
+                </div>
+            </div>
+
+            <div class="bottom-dock">
+                <div class="app-icon" onclick="alert('📞 กำลังเปิดรายชื่อเพื่อโทรออก...')">
+                    <img src="https://icons8.com"><span>โทร</span>
+                </div>
+                <div class="app-icon" onclick="alert('🌐 ยินดีต้อนรับสู่ Safari Browser')">
+                    <img src="https://icons8.com"><span>Safari</span>
+                </div>
+                <div class="app-icon" onclick="alert('💬 ไม่มีข้อความใหม่ในกล่องข้อความ')">
+                    <img src="https://icons8.com"><span>ข้อความ</span>
+
+const CORRECT_PASSCODE = "1234";
+let enteredPasscode = "";
+// ฟังก์ชั่นกดปุ่มตัวเลข (แก้ไขให้รับค่าแม่นยำขึ้น)
+function pressKey(num) {
+if (enteredPasscode.length >= 4) return;
+enteredPasscode += num;
+updatePasscodeDots();
+if (enteredPasscode.length === 4) {
+setTimeout(() => {
+if (enteredPasscode === CORRECT_PASSCODE) {
+document.getElementById('lockScreen').style.top = '-100%';
+} else {
+document.getElementById('passcodeLabel').innerText = "รหัสผิด! ลองใหม่อีกครั้ง";
+document.getElementById('passcodeLabel').style.color = "#ff3b30";
+enteredPasscode = "";
+updatePasscodeDots();
+setTimeout(() => {
+document.getElementById('passcodeLabel').innerText = "ป้อนรหัสผ่านเพื่อเปิดใช้งาน";
+document.getElementById('passcodeLabel').style.color = "white";
+}, 1200);
+}
+}, 150);
+}
+}
+function deleteKey() {
+if (enteredPasscode.length > 0) {
+enteredPasscode = enteredPasscode.slice(0, -1);
+updatePasscodeDots();
+}
+}
+function updatePasscodeDots() {
+for (let i = 0; i < 4; i++) {
+const dot = document.getElementById(dot${i});
+if (dot) {
+if (i < enteredPasscode.length) {
+dot.classList.add('active');
+} else {
+dot.classList.remove('active');
+}
+}
+}
+}
+// ระบบข้ามหน้าล็อคกรณีฉุกเฉิน
+function bypassUnlock() {
+document.getElementById('lockScreen').style.top = '-100%';
+}
+function openApp(appId) { document.getElementById(appId).classList.add('active'); }
+function closeApp(appId) { document.getElementById(appId).classList.remove('active'); }
+// ซิงค์เวลาอัตโนมัติ
+function updateClock() {
+const now = new Date();
+const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+document.getElementById('lockTime').innerText = timeStr;
+document.getElementById('statusTime').innerText = timeStr;
+const days = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
+const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+document.getElementById('lockDate').innerText = ${days[now.getDay()]}ที่ ${now.getDate()} ${months[now.getMonth()]};
+}
+setInterval(updateClock, 1000); updateClock();
+// LINE ตอบกลับ
+function sendLineMessage() {
+const input = document.getElementById('lineInput'); const chatBox = document.getElementById('lineChatBox');
+if (!input.value.trim()) return;
+const msg = document.createElement('div'); msg.className = 'msg user'; msg.innerText = input.value;
+chatBox.appendChild(msg); const text = input.value; input.value = ''; chatBox.scrollTop = chatBox.scrollHeight;
+setTimeout(() => {
+const reply = document.createElement('div'); reply.className = 'msg bot';
+reply.innerText = 'ได้รับข้อความเรียบร้อยแล้วค่ะ ระบบโต้ตอบไว 100% 💚';
+chatBox.appendChild(reply); chatBox.scrollTop = chatBox.scrollHeight;
+}, 800);
+}
